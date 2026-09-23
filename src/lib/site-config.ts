@@ -67,11 +67,8 @@ export function normalizeConfig(input: Partial<SiteConfig> | null | undefined): 
 }
 
 export async function readSiteConfig(): Promise<SiteConfig> {
-  const token = import.meta.env.BLOB_READ_WRITE_TOKEN;
-  if (!token) return DEFAULT_CONFIG;
-
   try {
-    const result = await list({ prefix: CONFIG_PATH, limit: 10, token });
+    const result = await list({ prefix: CONFIG_PATH, limit: 10 });
     const blob = result.blobs.find((item) => item.pathname === CONFIG_PATH);
     if (!blob) return DEFAULT_CONFIG;
 
@@ -84,11 +81,6 @@ export async function readSiteConfig(): Promise<SiteConfig> {
 }
 
 export async function writeSiteConfig(input: Partial<SiteConfig>): Promise<SiteConfig> {
-  const token = import.meta.env.BLOB_READ_WRITE_TOKEN;
-  if (!token) {
-    throw new Error('BLOB_NOT_CONFIGURED');
-  }
-
   const config = normalizeConfig(input);
   await put(CONFIG_PATH, JSON.stringify(config), {
     access: 'public',
@@ -96,7 +88,6 @@ export async function writeSiteConfig(input: Partial<SiteConfig>): Promise<SiteC
     allowOverwrite: true,
     contentType: 'application/json',
     cacheControlMaxAge: 60,
-    token,
   });
 
   return config;
