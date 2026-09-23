@@ -17,7 +17,6 @@ const planos = [
     <div class="packages-grid">
       {planos.map((plano, index) => (
         <article class:list={['package-card', { featured: index === 1 }]}>
-          {index === 1 && <span class="package-badge" data-text-key="featuredBadge">Mais completo</span>}
           <p class="package-name" data-text-key={plano.nameKey}>{plano.nome}</p>
           <h3 data-text-key={plano.highlightKey}>{plano.destaque}</h3>
           <p class="package-description" data-text-key={plano.descriptionKey}>{plano.descricao}</p>
