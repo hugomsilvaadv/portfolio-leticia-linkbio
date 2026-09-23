@@ -1,53 +1,28 @@
 ---
 const whatsapp = 'https://wa.me/5531995309352';
 const planos = [
-  {
-    nome: 'Plano Básico',
-    destaque: 'Provador avulso',
-    preco: 'A partir de R$ 200,00',
-    descricao: 'Ideal para apresentar peças de forma natural, visual e direta.',
-    mensagem: 'Olá, Letícia! Tenho interesse no Plano Básico de provador avulso.'
-  },
-  {
-    nome: 'Plano Mensal',
-    destaque: 'Conteúdo recorrente',
-    preco: 'A partir de R$ 900,00',
-    descricao: '1 provador por semana + 1 foto de look por semana.',
-    mensagem: 'Olá, Letícia! Tenho interesse no Plano Mensal de conteúdo.'
-  },
-  {
-    nome: 'Plano UGC',
-    destaque: 'Projeto personalizado',
-    preco: 'Sob consulta',
-    descricao: 'Formato, roteiro e entregas definidos de acordo com a necessidade da marca.',
-    mensagem: 'Olá, Letícia! Gostaria de solicitar uma proposta para conteúdo UGC.'
-  }
+  { nameKey:'basicName', highlightKey:'basicHighlight', descriptionKey:'basicDescription', priceKey:'basicPrice', nome:'Plano Básico', destaque:'Provador avulso', preco:'A partir de R$ 200,00', descricao:'Ideal para apresentar peças de forma natural, visual e direta.', mensagem:'Olá, Letícia! Tenho interesse no Plano Básico de provador avulso.' },
+  { nameKey:'monthlyName', highlightKey:'monthlyHighlight', descriptionKey:'monthlyDescription', priceKey:'monthlyPrice', nome:'Plano Mensal', destaque:'Conteúdo recorrente', preco:'A partir de R$ 900,00', descricao:'1 provador por semana + 1 foto de look por semana.', mensagem:'Olá, Letícia! Tenho interesse no Plano Mensal de conteúdo.' },
+  { nameKey:'ugcName', highlightKey:'ugcHighlight', descriptionKey:'ugcDescription', priceKey:'ugcPrice', nome:'Plano UGC', destaque:'Projeto personalizado', preco:'Sob consulta', descricao:'Formato, roteiro e entregas definidos de acordo com a necessidade da marca.', mensagem:'Olá, Letícia! Gostaria de solicitar uma proposta para conteúdo UGC.' }
 ];
 ---
 <section id="pacotes" class="section packages-section">
   <div class="container narrow-container">
     <div class="section-heading text-center">
-      <span class="eyebrow">Pacotes & serviços</span>
-      <h2 class="section-title italic">Escolha o formato ideal</h2>
-      <p>Opções para ações pontuais, presença recorrente e campanhas UGC personalizadas.</p>
+      <span class="eyebrow" data-text-key="servicesEyebrow">Pacotes & serviços</span>
+      <h2 class="section-title italic" data-text-key="servicesTitle">Escolha o formato ideal</h2>
+      <p data-text-key="servicesSubtitle">Opções para ações pontuais, presença recorrente e campanhas UGC personalizadas.</p>
     </div>
 
     <div class="packages-grid">
       {planos.map((plano, index) => (
-        <article class:list={['package-card', { featured: index === 1 }]}> 
-          {index === 1 && <span class="package-badge">Mais completo</span>}
-          <p class="package-name">{plano.nome}</p>
-          <h3>{plano.destaque}</h3>
-          <p class="package-description">{plano.descricao}</p>
-          <p class="package-price">{plano.preco}</p>
-          <a
-            class="package-button"
-            href={`${whatsapp}?text=${encodeURIComponent(plano.mensagem)}`}
-            target="_blank"
-            rel="noopener"
-          >
-            Solicitar proposta
-          </a>
+        <article class:list={['package-card', { featured: index === 1 }]}>
+          {index === 1 && <span class="package-badge" data-text-key="featuredBadge">Mais completo</span>}
+          <p class="package-name" data-text-key={plano.nameKey}>{plano.nome}</p>
+          <h3 data-text-key={plano.highlightKey}>{plano.destaque}</h3>
+          <p class="package-description" data-text-key={plano.descriptionKey}>{plano.descricao}</p>
+          <p class="package-price" data-text-key={plano.priceKey}>{plano.preco}</p>
+          <a class="package-button" href={whatsapp + '?text=' + encodeURIComponent(plano.mensagem)} target="_blank" rel="noopener" data-text-key="proposalButton">Solicitar proposta</a>
         </article>
       ))}
     </div>
