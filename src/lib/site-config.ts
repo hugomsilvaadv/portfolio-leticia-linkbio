@@ -73,7 +73,6 @@ export const DEFAULT_TEXTS: Record<string, TextBlock> = {
   servicesEyebrow: text('Pacotes & serviços', 'Segoe UI', 12, '#d88c88', 700),
   servicesTitle: text('Escolha o formato ideal', 'Georgia', 42, '#9c3f3f', 700, true),
   servicesSubtitle: text('Opções para ações pontuais, presença recorrente e campanhas UGC personalizadas.', 'Segoe UI', 16, '#746d69'),
-  featuredBadge: text('Mais completo', 'Segoe UI', 10, '#9c3f3f', 800),
 
   basicName: text('Plano Básico', 'Segoe UI', 12, '#d88c88', 800, false, 'left'),
   basicHighlight: text('Provador avulso', 'Georgia', 27, '#2f2b2a', 700, false, 'left'),
