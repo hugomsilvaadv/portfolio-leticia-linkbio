@@ -39,7 +39,7 @@ const { title } = Astro.props;
     .site-background {
       position: fixed;
       inset: 0;
-      z-index: -10;
+      z-index: 0;
       overflow: hidden;
       background: var(--bg-color);
       pointer-events: none;
@@ -50,7 +50,7 @@ const { title } = Astro.props;
       height: 100%;
       display: block;
       object-fit: cover;
-      object-position: 50% 35%;
+      object-position: 50% 52%;
       opacity: 1;
       transform: scale(1);
       transform-origin: center;
@@ -60,8 +60,10 @@ const { title } = Astro.props;
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(253, 251, 247, 0.08);
+      background: rgba(253, 251, 247, 0.04);
     }
+
+    main, footer { position: relative; z-index: 1; }
 
     h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; margin: 0; }
     a { text-decoration: none; }
@@ -381,7 +383,7 @@ const { title } = Astro.props;
         if (bgImage) {
           if (bg.url) bgImage.src = bg.url;
           bgImage.style.opacity = String((Number(bg.opacity ?? 100)) / 100);
-          bgImage.style.objectPosition = `${Number(bg.positionX ?? 50)}% ${Number(bg.positionY ?? 35)}%`;
+          bgImage.style.objectPosition = `${Number(bg.positionX ?? 50)}% ${Number(bg.positionY ?? 52)}%`;
           bgImage.style.objectFit = bg.fit === 'contain' ? 'contain' : 'cover';
           bgImage.style.transform = `scale(${Number(bg.zoom ?? 100) / 100})`;
         }
