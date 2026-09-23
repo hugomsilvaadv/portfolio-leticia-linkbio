@@ -47,7 +47,11 @@ const { title } = Astro.props;
     .italic { font-style: italic; }
 
     .link-hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
       min-height: 620px;
+      margin-top: 24px;
       padding-top: 72px;
       padding-bottom: 72px;
       display: flex;
@@ -55,6 +59,30 @@ const { title } = Astro.props;
       align-items: center;
       justify-content: center;
       text-align: center;
+      border-radius: 36px;
+    }
+
+    .link-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image: url('/hero-fundo-leticia.jpg');
+      background-size: cover;
+      background-position: center 28%;
+      opacity: 0.14;
+      filter: blur(1px) saturate(0.82);
+      transform: scale(1.04);
+    }
+
+    .link-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(253, 251, 247, 0.84), rgba(253, 251, 247, 0.92)),
+        radial-gradient(circle at 50% 0%, rgba(216, 140, 136, 0.08), transparent 34rem);
     }
 
     .profile-photo-wrap {
@@ -100,9 +128,8 @@ const { title } = Astro.props;
       font-size: clamp(48px, 9vw, 72px);
       line-height: 1;
       letter-spacing: -2px;
+      color: var(--brand-wine);
     }
-
-    .link-hero h1 span { color: var(--brand-wine); }
 
     .hero-description {
       max-width: 580px;
