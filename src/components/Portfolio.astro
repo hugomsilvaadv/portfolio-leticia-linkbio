@@ -19,7 +19,7 @@ const trabalhos = [
           <div class="showcase-media">
             {item.tipo === 'Vídeo' ? (
               <>
-                <video id={item.id} class={item.classe} controls playsinline preload="metadata">
+                <video id={item.id} class={item.classe} controls autoplay muted loop playsinline preload="auto">
                   <source src={item.arquivo} type="video/mp4" />
                 </video>
                 <div class="media-placeholder video-placeholder" aria-hidden="true">
@@ -52,6 +52,9 @@ const trabalhos = [
     video.addEventListener('loadeddata', () => {
       placeholder.style.display = 'none';
       video.style.display = 'block';
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
     });
     video.addEventListener('error', () => {
       video.style.display = 'none';
