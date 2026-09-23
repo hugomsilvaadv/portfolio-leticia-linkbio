@@ -11,130 +11,199 @@ const title = 'Painel do Portfólio | Letícia Leite';
   <style>
     :root{--wine:#9c3f3f;--wine-dark:#7a3131;--rose:#d88c88;--cream:#f8f3ed;--ink:#282321;--muted:#756b66;--line:#e5dcd6;--card:#fff}
     *{box-sizing:border-box} body{margin:0;background:#f4f1ed;color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:28px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+    button,input,select,textarea{font:inherit}.shell{max-width:1480px;margin:0 auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
     .topbar h1{margin:0;font:700 30px/1.1 Georgia,serif}.topbar p{margin:6px 0 0;color:var(--muted)}.site-link{padding:11px 16px;border-radius:12px;background:#fff;color:var(--wine);border:1px solid var(--line);text-decoration:none;font-weight:700}
-    .workspace{display:grid;grid-template-columns:470px minmax(0,1fr);gap:24px;align-items:start}.panel,.preview-card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 14px 40px rgba(78,56,48,.07)}
-    .panel{padding:22px}.panel h2{margin:0 0 16px;font-size:19px}.block{padding:18px 0;border-top:1px solid #eee7e2}.block:first-of-type{border-top:0;padding-top:0}
-    label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}input[type="password"],select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fff}
-    input[type="file"]{width:100%;font-size:12px}input[type="range"]{width:100%;accent-color:var(--wine)}.range-row{display:grid;grid-template-columns:1fr 58px;gap:10px;align-items:center;margin:12px 0}
-    .range-value{text-align:center;padding:8px 5px;border-radius:9px;background:#f5efeb;color:var(--wine);font-size:12px;font-weight:800}
-    .media-grid{display:grid;gap:14px}.media-editor{padding:14px;border:1px solid var(--line);border-radius:16px;background:#fbf9f7}.media-editor-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-    .media-editor-head strong{font-size:14px}.media-editor-head span{font-size:11px;color:var(--muted);background:#f0e8e3;padding:5px 8px;border-radius:999px}
-    .editor-preview{height:170px;overflow:hidden;border-radius:13px;background:#e9dfd9;margin-bottom:12px;display:grid;place-items:center}.editor-preview.profile{height:140px;background:#f1ebe6}
-    .editor-preview img,.editor-preview video{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1);transform-origin:center;display:block}
-    .editor-preview.profile img{width:118px;height:118px;border-radius:50%;border:4px solid #fff}.media-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px}
-    .media-controls .full{grid-column:1/-1}.mini-range{display:grid;grid-template-columns:1fr 50px;gap:6px;align-items:end}.mini-range label{margin:0}.mini-range span{font-size:11px;font-weight:800;color:var(--wine);text-align:right}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.button{border:0;border-radius:12px;padding:13px 15px;cursor:pointer;font-weight:800}.button-primary{background:var(--wine);color:#fff}.button-primary:hover{background:var(--wine-dark)}
-    .button-secondary{background:#f0e8e3;color:var(--wine)}.status{min-height:40px;margin-top:14px;padding:11px 12px;border-radius:11px;background:#f8f5f2;color:var(--muted);font-size:13px;line-height:1.4}
-    .status.ok{background:#eef7ef;color:#296236}.status.error{background:#fff0ef;color:#9a3530}.preview-card{position:sticky;top:20px;overflow:hidden}.preview-toolbar{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line);background:#fff}
-    .preview-toolbar span{font-size:13px;color:var(--muted)}.preview{position:relative;min-height:760px;overflow:hidden;background:var(--cream)}.preview-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 52%;transform:scale(1);opacity:1}
-    .preview-scroll{position:relative;z-index:2;padding:40px 28px 50px}.preview-content{width:min(620px,100%);margin:0 auto;padding:42px 30px;text-align:center;border-radius:30px;background:rgba(253,251,247,.63);backdrop-filter:blur(2px)}
-    .preview-avatar-wrap{width:118px;height:118px;margin:0 auto;overflow:hidden;border-radius:50%;border:5px solid #fff;background:#eee4de;box-shadow:0 10px 26px rgba(90,58,50,.14)}
-    .preview-avatar{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1);display:block}.preview-kicker{color:var(--rose);font-size:11px;text-transform:uppercase;letter-spacing:1.7px;font-weight:800;margin-top:20px}
-    .preview h2{color:var(--wine);font:700 clamp(42px,7vw,64px)/1 Georgia,serif;margin:9px 0 14px}.preview p{color:var(--muted);margin:0 auto 24px;max-width:460px}.mock-links{display:grid;gap:10px;max-width:480px;margin:0 auto}
-    .mock-links span{display:block;background:rgba(255,255,255,.9);border:1px solid #e7ddd7;border-radius:14px;padding:13px;font-weight:700;font-size:13px}.mock-links span:last-child{background:var(--wine);color:#fff}
-    .mini-title{text-align:center;margin:34px 0 16px;color:var(--wine);font:italic 700 26px Georgia,serif}.portfolio-preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:0 auto}
-    .portfolio-preview-item{overflow:hidden;border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(68,44,36,.1)}.portfolio-preview-media{aspect-ratio:4/5;overflow:hidden;background:#e8ddd6}
-    .portfolio-preview-media img,.portfolio-preview-media video{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:scale(1);transform-origin:center}.portfolio-preview-label{padding:10px 12px;font-size:11px;font-weight:800;color:var(--wine)}
-    .hint{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
-    @media(max-width:1050px){.workspace{grid-template-columns:1fr}.preview-card{position:static}}@media(max-width:650px){.shell{padding:14px}.topbar{align-items:flex-start;flex-direction:column}.actions{grid-template-columns:1fr}.media-controls{grid-template-columns:1fr}.media-controls .full{grid-column:auto}.portfolio-preview-grid{grid-template-columns:1fr}.preview-scroll{padding:24px 14px}.preview-content{padding:34px 18px}}
+    .workspace{display:grid;grid-template-columns:500px minmax(0,1fr);gap:22px;align-items:start}.panel,.preview-card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 14px 40px rgba(78,56,48,.07)}
+    .panel{padding:20px}.block{padding:18px 0;border-top:1px solid #eee7e2}.block:first-child{border-top:0;padding-top:0}.block h2{margin:0 0 14px;font-size:19px}
+    label{display:block;font-size:12px;font-weight:800;margin-bottom:6px;color:#4b423e}input[type=password],select,textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fff}
+    textarea{resize:vertical;min-height:64px}input[type=file]{width:100%;font-size:12px}input[type=range]{width:100%;accent-color:var(--wine)}input[type=color]{width:46px;height:36px;padding:2px;border:1px solid var(--line);border-radius:9px;background:#fff}
+    .range-row{display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:center;margin:11px 0}.range-value{text-align:center;padding:7px 4px;border-radius:9px;background:#f5efeb;color:var(--wine);font-size:11px;font-weight:800}
+    .media-grid{display:grid;gap:12px}.media-editor{padding:13px;border:1px solid var(--line);border-radius:15px;background:#fbf9f7}.media-head{display:flex;justify-content:space-between;gap:8px;margin-bottom:9px}.media-head strong{font-size:14px}.pill{font-size:10px;color:var(--muted);background:#f0e8e3;padding:4px 8px;border-radius:999px}
+    .editor-preview{height:150px;overflow:hidden;border-radius:12px;background:#eadfd8;margin-bottom:10px;display:grid;place-items:center}.editor-preview.profile{height:130px}.editor-preview img,.editor-preview video{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:scale(1);transform-origin:center}
+    .editor-preview.profile img{width:110px;height:110px;border-radius:50%;border:4px solid #fff}.media-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;margin-top:10px}.mini-range{display:grid;grid-template-columns:1fr 42px;gap:5px;align-items:end}.mini-range label{margin:0}.mini-range span{font-size:10px;font-weight:800;color:var(--wine);text-align:right}.mini-range input{grid-column:1/-1}
+    .text-toolbar-note{font-size:12px;color:var(--muted);margin:0 0 12px}.text-group-title{font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:var(--wine);margin:18px 0 8px}
+    .text-editor{border:1px solid var(--line);border-radius:13px;margin:8px 0;background:#fcfaf8;overflow:hidden}.text-editor summary{cursor:pointer;padding:11px 13px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none}.text-editor summary::-webkit-details-marker{display:none}.text-editor summary::after{content:'▾';color:var(--wine)}
+    .text-editor[open] summary{border-bottom:1px solid var(--line);background:#f8f2ee}.text-editor-body{padding:12px}.text-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.text-grid .wide{grid-column:1/-1}.inline-tools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.check-line{display:flex;align-items:center;gap:7px;padding-top:23px;font-size:12px;font-weight:700}
+    .reset-style{border:1px solid var(--line);background:#fff;color:var(--wine);border-radius:9px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}.font-select{font-family:inherit}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.button{border:0;border-radius:12px;padding:13px 15px;cursor:pointer;font-weight:800}.button-primary{background:var(--wine);color:#fff}.button-secondary{background:#f0e8e3;color:var(--wine)}.button:disabled{opacity:.55;cursor:wait}
+    .status{min-height:40px;margin-top:12px;padding:10px 12px;border-radius:10px;background:#f8f5f2;color:var(--muted);font-size:12px;line-height:1.4}.status.ok{background:#eef7ef;color:#296236}.status.error{background:#fff0ef;color:#9a3530}
+    .preview-card{position:sticky;top:14px;overflow:hidden;max-height:calc(100vh - 28px)}.preview-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid var(--line);background:#fff}.preview-toolbar span{font-size:12px;color:var(--muted)}
+    .preview{position:relative;height:calc(100vh - 92px);overflow:auto;background:var(--cream)}.preview-bg{position:fixed;pointer-events:none;width:calc(100% - 570px);height:calc(100vh - 92px);right:24px;top:68px;object-fit:cover;object-position:50% 52%;transform:scale(1);opacity:1}
+    .preview-page{position:relative;z-index:2;padding:28px}.preview-hero,.preview-section,.preview-footer{max-width:760px;margin:0 auto 24px;border-radius:26px}.preview-hero{padding:38px 26px;text-align:center;background:rgba(253,251,247,.67);backdrop-filter:blur(2px)}
+    .preview-avatar-wrap{width:108px;height:108px;margin:0 auto 18px;overflow:hidden;border-radius:50%;border:4px solid #fff;background:#eee4de}.preview-avatar{width:100%;height:100%;object-fit:cover;display:block}
+    .preview-hero h1{font:700 56px/1 Georgia,serif;color:var(--wine);margin:8px 0 14px}.preview-kicker{font-size:11px;color:var(--rose);text-transform:uppercase;font-weight:800;letter-spacing:1.5px}.preview-description{color:var(--muted);margin:0 auto 20px;max-width:520px}
+    .mock-links{display:grid;gap:9px;max-width:500px;margin:0 auto}.mock-links span{padding:12px;border-radius:13px;background:rgba(255,255,255,.92);font-weight:700;font-size:13px}.mock-links span:last-child{background:var(--wine);color:#fff}
+    .preview-section{padding:30px 24px;background:rgba(255,255,255,.88)}.section-head{text-align:center;margin-bottom:22px}.section-head .eyebrow{display:block;color:var(--rose);font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:1.3px}.section-head h2{font:italic 700 34px Georgia,serif;color:var(--wine);margin:7px 0}.section-head p{color:var(--muted);margin:0}
+    .portfolio-grid,.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.portfolio-item,.plan-item{background:#fff;border-radius:15px;overflow:hidden;border:1px solid var(--line)}.portfolio-media{aspect-ratio:4/5;overflow:hidden;background:#e8ddd6}.portfolio-media img,.portfolio-media video{width:100%;height:100%;display:block;object-fit:cover}.portfolio-caption,.plan-item{padding:12px}.portfolio-caption small{display:block;color:var(--rose);font-weight:800;margin-bottom:4px}.portfolio-caption strong{font-family:Georgia,serif}
+    .plan-item{min-height:250px;display:flex;flex-direction:column}.plan-item .name{color:var(--rose);font-size:11px;font-weight:800;text-transform:uppercase}.plan-item h3{font:700 22px Georgia,serif;margin:10px 0}.plan-item p{color:var(--muted);font-size:12px;line-height:1.45}.plan-item .price{color:var(--wine);font:700 18px Georgia,serif;margin-top:auto}.plan-item .proposal{background:var(--wine);color:#fff;text-align:center;padding:9px;border-radius:999px;font-size:11px;font-weight:800;margin-top:10px}.badge{font-size:9px;color:var(--wine);background:#f6e9e4;padding:4px 7px;border-radius:999px;align-self:flex-end}
+    .preview-footer{padding:34px 22px;background:rgba(17,17,17,.94);color:#fff;text-align:center}.preview-footer h2{font:italic 700 30px Georgia,serif;margin:0 0 14px}.preview-footer p{color:#aaa}.preview-footer a{color:#fff;display:block;margin:8px}.footer-links{display:flex;justify-content:center;gap:10px;margin-top:15px}.footer-links span{border:1px solid #555;padding:8px 13px;border-radius:999px}
+    [data-preview-key]{position:relative}
+    .hint{margin:7px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+    @media(max-width:1100px){.workspace{grid-template-columns:1fr}.preview-card{position:static;max-height:none}.preview{height:auto;max-height:900px}.preview-bg{position:absolute;width:100%;height:100%;right:0;top:0}.portfolio-grid,.plans-grid{grid-template-columns:1fr}.text-grid,.inline-tools,.media-controls{grid-template-columns:1fr}.text-grid .wide{grid-column:auto}}
+    @media(max-width:600px){.shell{padding:12px}.topbar{flex-direction:column;align-items:flex-start}.actions{grid-template-columns:1fr}.preview-page{padding:14px}.preview-hero h1{font-size:42px}}
   </style>
 </head>
 <body>
 <div class="shell">
-  <div class="topbar"><div><h1>Painel do Portfólio</h1><p>Troque e enquadre cada foto e vídeo sem editar código.</p></div><a class="site-link" href="/" target="_blank">Abrir site público ↗</a></div>
+  <div class="topbar">
+    <div><h1>Painel do Portfólio</h1><p>Edite fotos, vídeo, textos, fontes, tamanhos e posições.</p></div>
+    <a class="site-link" href="/" target="_blank">Abrir site público ↗</a>
+  </div>
+
   <div class="workspace">
     <section class="panel">
       <div class="block">
         <h2>Acesso</h2>
         <label for="admin-password">Senha do painel</label>
         <input id="admin-password" type="password" autocomplete="current-password" placeholder="Digite a senha" />
-        <p class="hint">Você pode montar toda a prévia antes de salvar.</p>
+        <p class="hint">Monte toda a página na prévia e salve somente quando terminar.</p>
       </div>
 
       <div class="block">
         <h2>Foto de fundo</h2>
         <label for="background-file">Escolher nova foto</label>
         <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" />
-        <div class="range-row"><div><label for="opacity">Opacidade</label><input id="opacity" type="range" min="0" max="100" value="100" /></div><span id="opacity-value" class="range-value">100%</span></div>
-        <div class="range-row"><div><label for="zoom">Zoom</label><input id="zoom" type="range" min="70" max="220" value="100" /></div><span id="zoom-value" class="range-value">100%</span></div>
-        <div class="range-row"><div><label for="position-x">Posição horizontal</label><input id="position-x" type="range" min="0" max="100" value="50" /></div><span id="position-x-value" class="range-value">50%</span></div>
-        <div class="range-row"><div><label for="position-y">Posição vertical</label><input id="position-y" type="range" min="0" max="100" value="52" /></div><span id="position-y-value" class="range-value">52%</span></div>
-        <label for="fit">Encaixe</label><select id="fit"><option value="cover">Cobrir toda a tela</option><option value="contain">Mostrar foto inteira</option></select>
+        <div class="range-row"><div><label>Opacidade</label><input id="opacity" type="range" min="0" max="100" value="100" /></div><span id="opacity-value" class="range-value">100%</span></div>
+        <div class="range-row"><div><label>Zoom</label><input id="zoom" type="range" min="70" max="220" value="100" /></div><span id="zoom-value" class="range-value">100%</span></div>
+        <div class="range-row"><div><label>Horizontal</label><input id="position-x" type="range" min="0" max="100" value="50" /></div><span id="position-x-value" class="range-value">50%</span></div>
+        <div class="range-row"><div><label>Vertical</label><input id="position-y" type="range" min="0" max="100" value="52" /></div><span id="position-y-value" class="range-value">52%</span></div>
+        <label>Encaixe</label><select id="fit"><option value="cover">Cobrir toda a tela</option><option value="contain">Mostrar foto inteira</option></select>
       </div>
 
       <div class="block">
         <h2>Mídias do portfólio</h2>
-        <div id="media-editors" class="media-grid">
-          <div class="media-editor" data-kind="profile" data-type="image">
-            <div class="media-editor-head"><strong>Foto redonda da Letícia</strong><span>Foto</span></div>
+        <div class="media-grid">
+          <div class="media-editor" data-kind="profile">
+            <div class="media-head"><strong>Foto redonda da Letícia</strong><span class="pill">Foto</span></div>
             <div class="editor-preview profile"><img id="editor-profile-preview" alt="" /></div>
             <input id="profile-file" type="file" accept="image/*" />
             <div class="media-controls">
-              <div class="mini-range"><label>Zoom</label><span id="profile-zoom-value">100%</span><input class="full" id="profile-zoom" type="range" min="70" max="220" value="100"></div>
-              <div class="mini-range"><label>Horizontal</label><span id="profile-x-value">50%</span><input class="full" id="profile-x" type="range" min="0" max="100" value="50"></div>
-              <div class="mini-range"><label>Vertical</label><span id="profile-y-value">50%</span><input class="full" id="profile-y" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Zoom</label><span id="profile-zoom-value">100%</span><input id="profile-zoom" type="range" min="70" max="220" value="100"></div>
+              <div class="mini-range"><label>Horizontal</label><span id="profile-x-value">50%</span><input id="profile-x" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Vertical</label><span id="profile-y-value">50%</span><input id="profile-y" type="range" min="0" max="100" value="50"></div>
               <div><label>Encaixe</label><select id="profile-fit"><option value="cover">Preencher</option><option value="contain">Foto inteira</option></select></div>
             </div>
           </div>
 
-          <div class="media-editor" data-kind="product" data-type="image">
-            <div class="media-editor-head"><strong>Foto do produto</strong><span>Foto</span></div>
+          <div class="media-editor" data-kind="product">
+            <div class="media-head"><strong>Foto do produto</strong><span class="pill">Foto</span></div>
             <div class="editor-preview"><img id="editor-product-preview" alt="" /></div>
             <input id="product-file" type="file" accept="image/*" />
             <div class="media-controls">
-              <div class="mini-range"><label>Zoom</label><span id="product-zoom-value">100%</span><input class="full" id="product-zoom" type="range" min="70" max="220" value="100"></div>
-              <div class="mini-range"><label>Horizontal</label><span id="product-x-value">50%</span><input class="full" id="product-x" type="range" min="0" max="100" value="50"></div>
-              <div class="mini-range"><label>Vertical</label><span id="product-y-value">50%</span><input class="full" id="product-y" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Zoom</label><span id="product-zoom-value">100%</span><input id="product-zoom" type="range" min="70" max="220" value="100"></div>
+              <div class="mini-range"><label>Horizontal</label><span id="product-x-value">50%</span><input id="product-x" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Vertical</label><span id="product-y-value">50%</span><input id="product-y" type="range" min="0" max="100" value="50"></div>
               <div><label>Encaixe</label><select id="product-fit"><option value="cover">Preencher</option><option value="contain">Foto inteira</option></select></div>
             </div>
           </div>
 
-          <div class="media-editor" data-kind="unboxing" data-type="video">
-            <div class="media-editor-head"><strong>Vídeo de unboxing</strong><span>Vídeo</span></div>
+          <div class="media-editor" data-kind="unboxing">
+            <div class="media-head"><strong>Vídeo de unboxing</strong><span class="pill">Vídeo</span></div>
             <div class="editor-preview"><video id="editor-unboxing-preview" controls playsinline muted></video></div>
             <input id="unboxing-file" type="file" accept="video/mp4,video/quicktime,video/webm" />
             <div class="media-controls">
-              <div class="mini-range"><label>Zoom</label><span id="unboxing-zoom-value">100%</span><input class="full" id="unboxing-zoom" type="range" min="70" max="180" value="100"></div>
-              <div class="mini-range"><label>Horizontal</label><span id="unboxing-x-value">50%</span><input class="full" id="unboxing-x" type="range" min="0" max="100" value="50"></div>
-              <div class="mini-range"><label>Vertical</label><span id="unboxing-y-value">50%</span><input class="full" id="unboxing-y" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Zoom</label><span id="unboxing-zoom-value">100%</span><input id="unboxing-zoom" type="range" min="70" max="180" value="100"></div>
+              <div class="mini-range"><label>Horizontal</label><span id="unboxing-x-value">50%</span><input id="unboxing-x" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Vertical</label><span id="unboxing-y-value">50%</span><input id="unboxing-y" type="range" min="0" max="100" value="50"></div>
               <div><label>Encaixe</label><select id="unboxing-fit"><option value="cover">Preencher</option><option value="contain">Vídeo inteiro</option></select></div>
             </div>
           </div>
 
-          <div class="media-editor" data-kind="fitting" data-type="image">
-            <div class="media-editor-head"><strong>Foto provador</strong><span>Foto</span></div>
+          <div class="media-editor" data-kind="fitting">
+            <div class="media-head"><strong>Foto provador</strong><span class="pill">Foto</span></div>
             <div class="editor-preview"><img id="editor-fitting-preview" alt="" /></div>
             <input id="fitting-file" type="file" accept="image/*" />
             <div class="media-controls">
-              <div class="mini-range"><label>Zoom</label><span id="fitting-zoom-value">100%</span><input class="full" id="fitting-zoom" type="range" min="70" max="220" value="100"></div>
-              <div class="mini-range"><label>Horizontal</label><span id="fitting-x-value">50%</span><input class="full" id="fitting-x" type="range" min="0" max="100" value="50"></div>
-              <div class="mini-range"><label>Vertical</label><span id="fitting-y-value">50%</span><input class="full" id="fitting-y" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Zoom</label><span id="fitting-zoom-value">100%</span><input id="fitting-zoom" type="range" min="70" max="220" value="100"></div>
+              <div class="mini-range"><label>Horizontal</label><span id="fitting-x-value">50%</span><input id="fitting-x" type="range" min="0" max="100" value="50"></div>
+              <div class="mini-range"><label>Vertical</label><span id="fitting-y-value">50%</span><input id="fitting-y" type="range" min="0" max="100" value="50"></div>
               <div><label>Encaixe</label><select id="fitting-fit"><option value="cover">Preencher</option><option value="contain">Foto inteira</option></select></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="actions"><button id="save-button" class="button button-primary" type="button">Salvar alterações</button><button id="reload-button" class="button button-secondary" type="button">Recarregar</button></div>
+      <div class="block">
+        <h2>Textos e tipografia</h2>
+        <p class="text-toolbar-note">Abra um campo para editar texto, fonte, tamanho, cor e deslocamento.</p>
+        <div id="text-editors"></div>
+      </div>
+
+      <div class="actions">
+        <button id="save-button" class="button button-primary" type="button">Salvar alterações</button>
+        <button id="reload-button" class="button button-secondary" type="button">Recarregar</button>
+      </div>
       <div id="status" class="status">Carregando configuração atual…</div>
     </section>
 
     <section class="preview-card">
-      <div class="preview-toolbar"><strong>Pré-visualização da página</strong><span>todas as mídias respondem em tempo real</span></div>
+      <div class="preview-toolbar"><strong>Pré-visualização da página</strong><span>alterações em tempo real</span></div>
       <div class="preview">
         <img id="preview-bg" class="preview-bg" src="/hero-fundo-leticia.jpg" alt="" />
-        <div class="preview-scroll">
-          <div class="preview-content">
+        <div class="preview-page">
+          <div class="preview-hero">
             <div class="preview-avatar-wrap"><img id="preview-profile" class="preview-avatar" alt="" /></div>
-            <div class="preview-kicker">UGC Creator • Moda • Beleza • Lifestyle</div><h2>Letícia Leite</h2><p>Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.</p>
-            <div class="mock-links"><span>Ver portfólio</span><span>Pacotes & serviços</span><span>Falar comigo</span></div>
+            <span class="preview-kicker" data-preview-key="heroKicker">UGC Creator • Moda • Beleza • Lifestyle</span>
+            <h1 data-preview-key="heroTitle">Letícia Leite</h1>
+            <p class="preview-description" data-preview-key="heroDescription">Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.</p>
+            <div class="mock-links">
+              <span data-preview-key="heroButtonPortfolio">Ver portfólio</span>
+              <span data-preview-key="heroButtonPackages">Pacotes & serviços</span>
+              <span data-preview-key="heroButtonContact">Falar comigo</span>
+            </div>
           </div>
-          <div class="mini-title">Conteúdo em destaque</div>
-          <div class="portfolio-preview-grid">
-            <div class="portfolio-preview-item"><div class="portfolio-preview-media"><img id="preview-product" alt="" /></div><div class="portfolio-preview-label">Foto do produto</div></div>
-            <div class="portfolio-preview-item"><div class="portfolio-preview-media"><video id="preview-unboxing" controls playsinline muted></video></div><div class="portfolio-preview-label">Vídeo de unboxing</div></div>
-            <div class="portfolio-preview-item"><div class="portfolio-preview-media"><img id="preview-fitting" alt="" /></div><div class="portfolio-preview-label">Foto provador</div></div>
+
+          <div class="preview-section">
+            <div class="section-head">
+              <span class="eyebrow" data-preview-key="portfolioEyebrow">Portfólio</span>
+              <h2 data-preview-key="portfolioTitle">Conteúdo em destaque</h2>
+              <p data-preview-key="portfolioSubtitle">Três formatos para apresentar produto, experiência e resultado de forma natural.</p>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-item"><div class="portfolio-media"><img id="preview-product" alt="" /></div><div class="portfolio-caption"><small data-preview-key="productType">Foto</small><strong data-preview-key="productLabel">Foto do produto</strong></div></div>
+              <div class="portfolio-item"><div class="portfolio-media"><video id="preview-unboxing" controls playsinline muted></video></div><div class="portfolio-caption"><small data-preview-key="unboxingType">Vídeo</small><strong data-preview-key="unboxingLabel">Vídeo de unboxing</strong></div></div>
+              <div class="portfolio-item"><div class="portfolio-media"><img id="preview-fitting" alt="" /></div><div class="portfolio-caption"><small data-preview-key="fittingType">Foto</small><strong data-preview-key="fittingLabel">Foto provador</strong></div></div>
+            </div>
+          </div>
+
+          <div class="preview-section">
+            <div class="section-head">
+              <span class="eyebrow" data-preview-key="servicesEyebrow">Pacotes & serviços</span>
+              <h2 data-preview-key="servicesTitle">Escolha o formato ideal</h2>
+              <p data-preview-key="servicesSubtitle">Opções para ações pontuais, presença recorrente e campanhas UGC personalizadas.</p>
+            </div>
+            <div class="plans-grid">
+              <div class="plan-item">
+                <span class="name" data-preview-key="basicName">Plano Básico</span>
+                <h3 data-preview-key="basicHighlight">Provador avulso</h3>
+                <p data-preview-key="basicDescription">Ideal para apresentar peças de forma natural, visual e direta.</p>
+                <div class="price" data-preview-key="basicPrice">A partir de R$ 200,00</div>
+                <div class="proposal" data-preview-key="proposalButton">Solicitar proposta</div>
+              </div>
+              <div class="plan-item">
+                <span class="badge" data-preview-key="featuredBadge">Mais completo</span>
+                <span class="name" data-preview-key="monthlyName">Plano Mensal</span>
+                <h3 data-preview-key="monthlyHighlight">Conteúdo recorrente</h3>
+                <p data-preview-key="monthlyDescription">1 provador por semana + 1 foto de look por semana.</p>
+                <div class="price" data-preview-key="monthlyPrice">A partir de R$ 900,00</div>
+                <div class="proposal" data-preview-key="proposalButton">Solicitar proposta</div>
+              </div>
+              <div class="plan-item">
+                <span class="name" data-preview-key="ugcName">Plano UGC</span>
+                <h3 data-preview-key="ugcHighlight">Projeto personalizado</h3>
+                <p data-preview-key="ugcDescription">Formato, roteiro e entregas definidos de acordo com a necessidade da marca.</p>
+                <div class="price" data-preview-key="ugcPrice">Sob consulta</div>
+                <div class="proposal" data-preview-key="proposalButton">Solicitar proposta</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-footer">
+            <h2 data-preview-key="footerTitle">Vamos trabalhar juntos?</h2>
+            <p data-preview-key="footerDescription">Um conteúdo feito para conectar. Criar é mais do que mostrar. É despertar interesse, identificação e desejo.</p>
+            <a data-preview-key="footerEmail">leticialeitecontent@gmail.com</a>
+            <p data-preview-key="footerLocation">Ribeirão Preto (SP) / Sete Lagoas (MG)</p>
+            <div class="footer-links"><span data-preview-key="footerInstagram">@leticiafnda</span><span data-preview-key="footerWhatsapp">WhatsApp</span></div>
           </div>
         </div>
       </div>
@@ -145,74 +214,206 @@ const title = 'Painel do Portfólio | Letícia Leite';
 <script>
   import { uploadPresigned } from '@vercel/blob/client';
 
-  const asset = (url) => ({ url, positionX:50, positionY:50, zoom:100, fit:'cover' });
-  const defaults = {
+  const el=(id)=>document.getElementById(id);
+  const status=el('status');
+  const fonts=['Arial','Calibri','Cambria','Georgia','Garamond','Times New Roman','Segoe UI','Helvetica','Verdana','Tahoma','Trebuchet MS','Baskerville','Palatino Linotype'];
+  const t=(key,section,label,value,font,size,color,weight,italic,align)=>({key,section,label,default:{text:value,font,size,x:0,y:0,color,weight,italic,align}});
+  const textDefs=[
+    t('heroKicker','Topo','Linha superior','UGC Creator • Moda • Beleza • Lifestyle','Segoe UI',12,'#d88c88',700,false,'center'),
+    t('heroTitle','Topo','Nome principal','Letícia Leite','Georgia',64,'#9c3f3f',700,false,'center'),
+    t('heroDescription','Topo','Descrição','Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.','Segoe UI',17,'#746d69',400,false,'center'),
+    t('heroButtonPortfolio','Topo','Botão: Ver portfólio','Ver portfólio','Segoe UI',14,'#2f2b2a',600,false,'center'),
+    t('heroButtonPackages','Topo','Botão: Pacotes','Pacotes & serviços','Segoe UI',14,'#2f2b2a',600,false,'center'),
+    t('heroButtonContact','Topo','Botão: Falar comigo','Falar comigo','Segoe UI',14,'#ffffff',700,false,'center'),
+
+    t('portfolioEyebrow','Portfólio','Rótulo da seção','Portfólio','Segoe UI',12,'#d88c88',700,false,'center'),
+    t('portfolioTitle','Portfólio','Título da seção','Conteúdo em destaque','Georgia',42,'#9c3f3f',700,true,'center'),
+    t('portfolioSubtitle','Portfólio','Subtítulo','Três formatos para apresentar produto, experiência e resultado de forma natural.','Segoe UI',16,'#746d69',400,false,'center'),
+    t('productType','Portfólio','Tipo: produto','Foto','Segoe UI',11,'#d88c88',700,false,'left'),
+    t('productLabel','Portfólio','Legenda: produto','Foto do produto','Georgia',21,'#2f2b2a',700,false,'left'),
+    t('unboxingType','Portfólio','Tipo: unboxing','Vídeo','Segoe UI',11,'#d88c88',700,false,'left'),
+    t('unboxingLabel','Portfólio','Legenda: unboxing','Vídeo de unboxing','Georgia',21,'#2f2b2a',700,false,'left'),
+    t('fittingType','Portfólio','Tipo: provador','Foto','Segoe UI',11,'#d88c88',700,false,'left'),
+    t('fittingLabel','Portfólio','Legenda: provador','Foto provador','Georgia',21,'#2f2b2a',700,false,'left'),
+
+    t('servicesEyebrow','Pacotes','Rótulo da seção','Pacotes & serviços','Segoe UI',12,'#d88c88',700,false,'center'),
+    t('servicesTitle','Pacotes','Título da seção','Escolha o formato ideal','Georgia',42,'#9c3f3f',700,true,'center'),
+    t('servicesSubtitle','Pacotes','Subtítulo','Opções para ações pontuais, presença recorrente e campanhas UGC personalizadas.','Segoe UI',16,'#746d69',400,false,'center'),
+    t('featuredBadge','Pacotes','Selo do plano mensal','Mais completo','Segoe UI',10,'#9c3f3f',800,false,'center'),
+    t('basicName','Pacotes','Básico: nome','Plano Básico','Segoe UI',12,'#d88c88',800,false,'left'),
+    t('basicHighlight','Pacotes','Básico: destaque','Provador avulso','Georgia',27,'#2f2b2a',700,false,'left'),
+    t('basicDescription','Pacotes','Básico: descrição','Ideal para apresentar peças de forma natural, visual e direta.','Segoe UI',14,'#746d69',400,false,'left'),
+    t('basicPrice','Pacotes','Básico: preço','A partir de R$ 200,00','Georgia',21,'#9c3f3f',700,false,'left'),
+    t('monthlyName','Pacotes','Mensal: nome','Plano Mensal','Segoe UI',12,'#d88c88',800,false,'left'),
+    t('monthlyHighlight','Pacotes','Mensal: destaque','Conteúdo recorrente','Georgia',27,'#2f2b2a',700,false,'left'),
+    t('monthlyDescription','Pacotes','Mensal: descrição','1 provador por semana + 1 foto de look por semana.','Segoe UI',14,'#746d69',400,false,'left'),
+    t('monthlyPrice','Pacotes','Mensal: preço','A partir de R$ 900,00','Georgia',21,'#9c3f3f',700,false,'left'),
+    t('ugcName','Pacotes','UGC: nome','Plano UGC','Segoe UI',12,'#d88c88',800,false,'left'),
+    t('ugcHighlight','Pacotes','UGC: destaque','Projeto personalizado','Georgia',27,'#2f2b2a',700,false,'left'),
+    t('ugcDescription','Pacotes','UGC: descrição','Formato, roteiro e entregas definidos de acordo com a necessidade da marca.','Segoe UI',14,'#746d69',400,false,'left'),
+    t('ugcPrice','Pacotes','UGC: preço','Sob consulta','Georgia',21,'#9c3f3f',700,false,'left'),
+    t('proposalButton','Pacotes','Botão dos planos','Solicitar proposta','Segoe UI',14,'#ffffff',700,false,'center'),
+
+    t('footerTitle','Rodapé','Título','Vamos trabalhar juntos?','Georgia',36,'#ffffff',700,true,'center'),
+    t('footerDescription','Rodapé','Descrição','Um conteúdo feito para conectar. Criar é mais do que mostrar. É despertar interesse, identificação e desejo.','Segoe UI',18,'#aaaaaa',400,false,'center'),
+    t('footerEmail','Rodapé','E-mail','leticialeitecontent@gmail.com','Georgia',24,'#ffffff',400,false,'center'),
+    t('footerLocation','Rodapé','Localização','Ribeirão Preto (SP) / Sete Lagoas (MG)','Segoe UI',16,'#aaaaaa',400,false,'center'),
+    t('footerInstagram','Rodapé','Instagram','@leticiafnda','Segoe UI',14,'#ffffff',400,false,'center'),
+    t('footerWhatsapp','Rodapé','WhatsApp','WhatsApp','Segoe UI',14,'#ffffff',400,false,'center')
+  ];
+  const textDefaults=Object.fromEntries(textDefs.map((d)=>[d.key,structuredClone(d.default)]));
+  const asset=(url)=>({url,positionX:50,positionY:50,zoom:100,fit:'cover'});
+  const defaults={
     background:{url:'/hero-fundo-leticia.jpg',opacity:100,positionX:50,positionY:52,zoom:100,fit:'cover'},
-    media:{
-      profile:asset('/foto-perfil.jpg'),
-      product:asset('/portfolio-produto.jpg'),
-      unboxing:asset('/portfolio-unboxing.mp4'),
-      fitting:asset('/portfolio-provador.jpg')
-    }
+    media:{profile:asset('/foto-perfil.jpg'),product:asset('/portfolio-produto.jpg'),unboxing:asset('/portfolio-unboxing.mp4'),fitting:asset('/portfolio-provador.jpg')},
+    texts:textDefaults
   };
   const kinds=['profile','product','unboxing','fitting'];
   let state=structuredClone(defaults);
   const pendingFiles={background:null,profile:null,product:null,unboxing:null,fitting:null};
   const localUrls={background:'',profile:'',product:'',unboxing:'',fitting:''};
-  const el=(id)=>document.getElementById(id);
-  const status=el('status');
 
   function setStatus(message,type=''){status.textContent=message;status.className='status'+(type?' '+type:'')}
   function normalizeAsset(value,fallback){if(typeof value==='string')return{...fallback,url:value};return{...fallback,...(value||{})}}
+  function normalizeText(value,fallback){return{...fallback,...(value||{})}}
+  function clearLocal(kind){if(localUrls[kind])URL.revokeObjectURL(localUrls[kind]);localUrls[kind]='';pendingFiles[kind]=null}
   function srcFor(kind){return localUrls[kind]||state.media[kind].url||defaults.media[kind].url}
-  function applyAsset(node,assetValue,kind){
+  function applyAsset(node,a,kind){
     if(!node)return;
     const src=kind==='background'?(localUrls.background||state.background.url):srcFor(kind);
-    if(node.tagName==='VIDEO'){
-      if(node.src!==src){node.src=src;node.load()}
-    }else if(node.src!==src){node.src=src}
-    node.style.objectFit=assetValue.fit==='contain'?'contain':'cover';
-    node.style.objectPosition=assetValue.positionX+'% '+assetValue.positionY+'%';
-    node.style.transform='scale('+(assetValue.zoom/100)+')';
+    if(node.tagName==='VIDEO'){if(node.src!==src){node.src=src;node.load()}}else if(node.src!==src){node.src=src}
+    node.style.objectFit=a.fit==='contain'?'contain':'cover';
+    node.style.objectPosition=String(a.positionX)+'% '+String(a.positionY)+'%';
+    node.style.transform='scale('+String(a.zoom/100)+')';
+    node.style.transformOrigin='center';
+  }
+  function applyTextPreview(key,b){
+    document.querySelectorAll('[data-preview-key="'+key+'"]').forEach((node)=>{
+      node.textContent=b.text;
+      node.style.fontFamily=b.font;
+      node.style.fontSize=String(b.size)+'px';
+      node.style.color=b.color;
+      node.style.fontWeight=String(b.weight);
+      node.style.fontStyle=b.italic?'italic':'normal';
+      node.style.textAlign=b.align;
+      node.style.left=String(b.x)+'px';
+      node.style.top=String(b.y)+'px';
+    });
   }
   function syncBackground(){
-    state.background.opacity=Number(el('opacity').value);state.background.zoom=Number(el('zoom').value);
-    state.background.positionX=Number(el('position-x').value);state.background.positionY=Number(el('position-y').value);state.background.fit=el('fit').value;
-    el('opacity-value').textContent=el('opacity').value+'%';el('zoom-value').textContent=el('zoom').value+'%';
-    el('position-x-value').textContent=el('position-x').value+'%';el('position-y-value').textContent=el('position-y').value+'%';
+    state.background.opacity=Number(el('opacity').value);
+    state.background.zoom=Number(el('zoom').value);
+    state.background.positionX=Number(el('position-x').value);
+    state.background.positionY=Number(el('position-y').value);
+    state.background.fit=el('fit').value;
+    el('opacity-value').textContent=el('opacity').value+'%';
+    el('zoom-value').textContent=el('zoom').value+'%';
+    el('position-x-value').textContent=el('position-x').value+'%';
+    el('position-y-value').textContent=el('position-y').value+'%';
   }
   function syncAsset(kind){
-    const a=state.media[kind];a.zoom=Number(el(kind+'-zoom').value);a.positionX=Number(el(kind+'-x').value);a.positionY=Number(el(kind+'-y').value);a.fit=el(kind+'-fit').value;
+    const a=state.media[kind];
+    a.zoom=Number(el(kind+'-zoom').value);a.positionX=Number(el(kind+'-x').value);a.positionY=Number(el(kind+'-y').value);a.fit=el(kind+'-fit').value;
     el(kind+'-zoom-value').textContent=a.zoom+'%';el(kind+'-x-value').textContent=a.positionX+'%';el(kind+'-y-value').textContent=a.positionY+'%';
   }
-  function render(){
+  function renderMedia(){
     syncBackground();
-    const bg=el('preview-bg');bg.src=localUrls.background||state.background.url;bg.style.opacity=String(state.background.opacity/100);
-    bg.style.objectFit=state.background.fit;bg.style.objectPosition=state.background.positionX+'% '+state.background.positionY+'%';bg.style.transform='scale('+(state.background.zoom/100)+')';
+    const bg=el('preview-bg');bg.src=localUrls.background||state.background.url;bg.style.opacity=String(state.background.opacity/100);bg.style.objectFit=state.background.fit;bg.style.objectPosition=state.background.positionX+'% '+state.background.positionY+'%';bg.style.transform='scale('+(state.background.zoom/100)+')';
     kinds.forEach((kind)=>{syncAsset(kind);applyAsset(el('editor-'+kind+'-preview'),state.media[kind],kind);applyAsset(el('preview-'+kind),state.media[kind],kind)});
   }
+  function renderAllTexts(){textDefs.forEach((d)=>applyTextPreview(d.key,state.texts[d.key]))}
+
+  function fontOptions(selected){
+    return fonts.map((font)=>'<option value="'+font+'"'+(font===selected?' selected':'')+' style="font-family:'+font+'">'+font+'</option>').join('');
+  }
+  function makeTextEditors(){
+    const root=el('text-editors');root.innerHTML='';
+    let currentSection='';
+    textDefs.forEach((def)=>{
+      if(def.section!==currentSection){
+        currentSection=def.section;
+        const heading=document.createElement('div');heading.className='text-group-title';heading.textContent=currentSection;root.appendChild(heading);
+      }
+      const b=state.texts[def.key];
+      const details=document.createElement('details');details.className='text-editor';details.dataset.key=def.key;
+      details.innerHTML='<summary><span>'+def.label+'</span><span class="pill">'+def.section+'</span></summary>'+
+        '<div class="text-editor-body">'+
+          '<div class="text-grid">'+
+            '<div class="wide"><label>Texto</label><textarea id="txt-'+def.key+'"></textarea></div>'+
+            '<div><label>Fonte</label><select class="font-select" id="font-'+def.key+'">'+fontOptions(b.font)+'</select></div>'+
+            '<div><label>Cor</label><input id="color-'+def.key+'" type="color" value="'+b.color+'"></div>'+
+            '<div class="wide range-row"><div><label>Tamanho</label><input id="size-'+def.key+'" type="range" min="8" max="100" value="'+b.size+'"></div><span id="sizeval-'+def.key+'" class="range-value">'+b.size+'px</span></div>'+
+            '<div class="wide range-row"><div><label>Deslocamento horizontal</label><input id="x-'+def.key+'" type="range" min="-250" max="250" value="'+b.x+'"></div><span id="xval-'+def.key+'" class="range-value">'+b.x+'px</span></div>'+
+            '<div class="wide range-row"><div><label>Deslocamento vertical</label><input id="y-'+def.key+'" type="range" min="-250" max="250" value="'+b.y+'"></div><span id="yval-'+def.key+'" class="range-value">'+b.y+'px</span></div>'+
+            '<div><label>Peso</label><select id="weight-'+def.key+'"><option value="400">Normal</option><option value="500">Médio</option><option value="600">Seminegrito</option><option value="700">Negrito</option><option value="800">Extra negrito</option><option value="900">Pesado</option></select></div>'+
+            '<div><label>Alinhamento</label><select id="align-'+def.key+'"><option value="left">Esquerda</option><option value="center">Centro</option><option value="right">Direita</option></select></div>'+
+            '<div class="check-line"><input id="italic-'+def.key+'" type="checkbox"><label for="italic-'+def.key+'" style="margin:0">Itálico</label></div>'+
+            '<div style="padding-top:18px"><button class="reset-style" id="reset-'+def.key+'" type="button">Resetar estilo</button></div>'+
+          '</div>'+
+        '</div>';
+      root.appendChild(details);
+      el('txt-'+def.key).value=b.text;
+      el('font-'+def.key).value=b.font;
+      el('font-'+def.key).style.fontFamily=b.font;
+      el('weight-'+def.key).value=String(b.weight);
+      el('align-'+def.key).value=b.align;
+      el('italic-'+def.key).checked=Boolean(b.italic);
+
+      const update=()=>{
+        const block=state.texts[def.key];
+        block.text=el('txt-'+def.key).value;
+        block.font=el('font-'+def.key).value;
+        block.size=Number(el('size-'+def.key).value);
+        block.x=Number(el('x-'+def.key).value);
+        block.y=Number(el('y-'+def.key).value);
+        block.color=el('color-'+def.key).value;
+        block.weight=Number(el('weight-'+def.key).value);
+        block.italic=el('italic-'+def.key).checked;
+        block.align=el('align-'+def.key).value;
+        el('sizeval-'+def.key).textContent=block.size+'px';
+        el('xval-'+def.key).textContent=block.x+'px';
+        el('yval-'+def.key).textContent=block.y+'px';
+        el('font-'+def.key).style.fontFamily=block.font;
+        applyTextPreview(def.key,block);
+      };
+      ['txt-','font-','size-','x-','y-','color-','weight-','italic-','align-'].forEach((prefix)=>{
+        const node=el(prefix+def.key);node.addEventListener('input',update);node.addEventListener('change',update);
+      });
+      el('reset-'+def.key).addEventListener('click',()=>{
+        const keepText=state.texts[def.key].text;
+        state.texts[def.key]={...structuredClone(def.default),text:keepText};
+        const nb=state.texts[def.key];
+        el('font-'+def.key).value=nb.font;el('font-'+def.key).style.fontFamily=nb.font;el('size-'+def.key).value=String(nb.size);el('x-'+def.key).value=String(nb.x);el('y-'+def.key).value=String(nb.y);el('color-'+def.key).value=nb.color;el('weight-'+def.key).value=String(nb.weight);el('italic-'+def.key).checked=nb.italic;el('align-'+def.key).value=nb.align;
+        update();
+      });
+    });
+  }
+
   function loadControls(){
     el('opacity').value=String(state.background.opacity);el('zoom').value=String(state.background.zoom);el('position-x').value=String(state.background.positionX);el('position-y').value=String(state.background.positionY);el('fit').value=state.background.fit;
     kinds.forEach((kind)=>{const a=state.media[kind];el(kind+'-zoom').value=String(a.zoom);el(kind+'-x').value=String(a.positionX);el(kind+'-y').value=String(a.positionY);el(kind+'-fit').value=a.fit});
-    render();
+    makeTextEditors();renderMedia();renderAllTexts();
   }
-  function clearLocal(kind){if(localUrls[kind])URL.revokeObjectURL(localUrls[kind]);localUrls[kind]='';pendingFiles[kind]=null}
+
   async function loadConfig(){
     setStatus('Carregando configuração atual…');
     try{
       const response=await fetch('/api/config?ts='+Date.now(),{cache:'no-store'});if(!response.ok)throw new Error('Não foi possível carregar a configuração.');
-      const data=await response.json();state={background:{...defaults.background,...(data.background||{})},media:{}};
-      kinds.forEach((kind)=>state.media[kind]=normalizeAsset(data.media?.[kind],defaults.media[kind]));
-      Object.keys(localUrls).forEach(clearLocal);loadControls();setStatus('Configuração carregada. Escolha as mídias e ajuste como quiser.','ok');
+      const data=await response.json();
+      state={background:{...defaults.background,...(data.background||{})},media:{},texts:{}};
+      kinds.forEach((kind)=>state.media[kind]=normalizeAsset(data.media&&data.media[kind],defaults.media[kind]));
+      textDefs.forEach((def)=>state.texts[def.key]=normalizeText(data.texts&&data.texts[def.key],def.default));
+      Object.keys(localUrls).forEach(clearLocal);loadControls();setStatus('Configuração carregada. Você já pode editar tudo.','ok');
     }catch(error){state=structuredClone(defaults);loadControls();setStatus(error instanceof Error?error.message:'Falha ao carregar.','error')}
   }
-  function chooseFile(kind,file){clearLocal(kind);pendingFiles[kind]=file;localUrls[kind]=URL.createObjectURL(file);render();setStatus('Prévia atualizada. Ajuste a mídia e clique em Salvar alterações.','ok')}
-  el('background-file').addEventListener('change',(event)=>{const file=event.target.files?.[0];if(file)chooseFile('background',file)});
+
+  function chooseFile(kind,file){clearLocal(kind);pendingFiles[kind]=file;localUrls[kind]=URL.createObjectURL(file);renderMedia();setStatus('Prévia atualizada. Ajuste e clique em Salvar alterações.','ok')}
+  el('background-file').addEventListener('change',(event)=>{const file=event.target.files&&event.target.files[0];if(file)chooseFile('background',file)});
   kinds.forEach((kind)=>{
-    el(kind+'-file').addEventListener('change',(event)=>{const file=event.target.files?.[0];if(file)chooseFile(kind,file)});
-    [kind+'-zoom',kind+'-x',kind+'-y',kind+'-fit'].forEach((id)=>{el(id).addEventListener('input',render);el(id).addEventListener('change',render)});
+    el(kind+'-file').addEventListener('change',(event)=>{const file=event.target.files&&event.target.files[0];if(file)chooseFile(kind,file)});
+    [kind+'-zoom',kind+'-x',kind+'-y',kind+'-fit'].forEach((id)=>{el(id).addEventListener('input',renderMedia);el(id).addEventListener('change',renderMedia)});
   });
-  ['opacity','zoom','position-x','position-y','fit'].forEach((id)=>{el(id).addEventListener('input',render);el(id).addEventListener('change',render)});
+  ['opacity','zoom','position-x','position-y','fit'].forEach((id)=>{el(id).addEventListener('input',renderMedia);el(id).addEventListener('change',renderMedia)});
 
   async function uploadPending(kind,password){
     const file=pendingFiles[kind];if(!file)return null;
@@ -224,24 +425,27 @@ const title = 'Painel do Portfólio | Letícia Leite';
 
   el('save-button').addEventListener('click',async()=>{
     const password=el('admin-password').value.trim();if(!password){setStatus('Digite a senha do painel para salvar.','error');return}
-    render();el('save-button').disabled=true;
+    renderMedia();el('save-button').disabled=true;
     try{
-      const pendingKinds=['background',...kinds].filter((kind)=>pendingFiles[kind]);
+      const pendingKinds=['background'].concat(kinds).filter((kind)=>pendingFiles[kind]);
       for(const kind of pendingKinds){
         setStatus('Enviando '+pendingFiles[kind].name+'…');
         const url=await uploadPending(kind,password);
         if(kind==='background')state.background.url=url;else state.media[kind].url=url;
         clearLocal(kind);
       }
-      setStatus('Salvando enquadramentos…');
+      setStatus('Salvando textos, estilos e enquadramentos…');
       const response=await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json','x-admin-password':password},body:JSON.stringify(state)});
       const data=await response.json().catch(()=>({}));
       if(!response.ok){if(data.error==='INVALID_PASSWORD')throw new Error('Senha incorreta.');throw new Error(data.error||'Não foi possível salvar.')}
-      state=data.config;kinds.forEach((kind)=>state.media[kind]=normalizeAsset(state.media[kind],defaults.media[kind]));loadControls();
-      setStatus('Tudo salvo e publicado no portfólio.','ok');
+      state={...data,background:data.background,media:data.media,texts:data.texts};
+      kinds.forEach((kind)=>state.media[kind]=normalizeAsset(state.media[kind],defaults.media[kind]));
+      textDefs.forEach((def)=>state.texts[def.key]=normalizeText(state.texts[def.key],def.default));
+      loadControls();setStatus('Tudo salvo e publicado no portfólio.','ok');
     }catch(error){setStatus(error instanceof Error?error.message:'Falha ao salvar.','error')}
     finally{el('save-button').disabled=false}
   });
+
   el('reload-button').addEventListener('click',loadConfig);
   loadConfig();
 </script>
