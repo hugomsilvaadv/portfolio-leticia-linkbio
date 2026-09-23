@@ -14,7 +14,7 @@ export const GET: APIRoute = async () => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
-  const auth = validateAdminPassword(request.headers.get('x-admin-password'));
+  const auth = await validateAdminPassword(request.headers.get('x-admin-password'));
   if (!auth.ok) {
     return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers });
   }
