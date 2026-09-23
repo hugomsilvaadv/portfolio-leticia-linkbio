@@ -31,8 +31,8 @@ const { title } = Astro.props;
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 50% 0%, rgba(216, 140, 136, 0.11), transparent 34rem),
-        var(--bg-color);
+        linear-gradient(rgba(253, 251, 247, 0.12), rgba(253, 251, 247, 0.12)),
+        url('/hero-fundo-leticia.jpg') center top / cover fixed no-repeat;
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
     }
@@ -59,12 +59,8 @@ const { title } = Astro.props;
       justify-content: center;
       text-align: center;
       border-radius: 36px;
-      background-image:
-        linear-gradient(180deg, rgba(253, 251, 247, 0.56), rgba(253, 251, 247, 0.68)),
-        url('/hero-fundo-leticia.jpg');
-      background-size: 100% 100%, auto 108%;
-      background-position: center, center 42%;
-      background-repeat: no-repeat;
+      background: rgba(253, 251, 247, 0.28);
+      backdrop-filter: blur(0.4px);
     }
 
     .profile-photo-wrap {
@@ -153,8 +149,8 @@ const { title } = Astro.props;
     }
 
     .section { padding: 88px 0; }
-    .showcase-section { background: rgba(238, 221, 204, 0.24); }
-    .packages-section { background: #fff; }
+    .showcase-section { background: rgba(238, 221, 204, 0.52); }
+    .packages-section { background: rgba(255, 255, 255, 0.68); }
 
     .section-heading { max-width: 660px; margin: 0 auto 42px; }
     .section-title {
@@ -318,7 +314,7 @@ const { title } = Astro.props;
     }
     .package-button:hover { background: var(--brand-wine-dark); transform: translateY(-1px); }
 
-    footer { background-color: #111; color: white; text-align: center; padding: 100px 24px; }
+    footer { background: rgba(17, 17, 17, 0.90); color: white; text-align: center; padding: 100px 24px; }
     footer h2 { font-size: 36px; margin-bottom: 24px; }
     footer p { color: #aaa; font-size: 18px; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
     footer a.email { display: block; font-size: 24px; color: white; margin-bottom: 16px; }
