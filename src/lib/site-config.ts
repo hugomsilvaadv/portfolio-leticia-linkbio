@@ -2,6 +2,14 @@ import { list, put } from '@vercel/blob';
 
 export type FitMode = 'cover' | 'contain';
 
+export interface MediaAsset {
+  url: string;
+  positionX: number;
+  positionY: number;
+  zoom: number;
+  fit: FitMode;
+}
+
 export interface SiteConfig {
   background: {
     url: string;
@@ -12,12 +20,20 @@ export interface SiteConfig {
     fit: FitMode;
   };
   media: {
-    profile: string;
-    product: string;
-    unboxing: string;
-    fitting: string;
+    profile: MediaAsset;
+    product: MediaAsset;
+    unboxing: MediaAsset;
+    fitting: MediaAsset;
   };
 }
+
+const asset = (url: string, fit: FitMode = 'cover'): MediaAsset => ({
+  url,
+  positionX: 50,
+  positionY: 50,
+  zoom: 100,
+  fit,
+});
 
 export const DEFAULT_CONFIG: SiteConfig = {
   background: {
@@ -29,10 +45,10 @@ export const DEFAULT_CONFIG: SiteConfig = {
     fit: 'cover',
   },
   media: {
-    profile: '/foto-perfil.jpg',
-    product: '/portfolio-produto.jpg',
-    unboxing: '/portfolio-unboxing.mp4',
-    fitting: '/portfolio-provador.jpg',
+    profile: asset('/foto-perfil.jpg'),
+    product: asset('/portfolio-produto.jpg'),
+    unboxing: asset('/portfolio-unboxing.mp4'),
+    fitting: asset('/portfolio-provador.jpg'),
   },
 };
 
@@ -42,6 +58,21 @@ function numberInRange(value: unknown, fallback: number, min: number, max: numbe
   const parsed = Number(value);
   if (!Number.isFinite(parsed)) return fallback;
   return Math.min(max, Math.max(min, parsed));
+}
+
+function normalizeAsset(input: unknown, fallback: MediaAsset): MediaAsset {
+  if (typeof input === 'string') {
+    return { ...fallback, url: input || fallback.url };
+  }
+
+  const value = (input && typeof input === 'object' ? input : {}) as Partial<MediaAsset>;
+  return {
+    url: typeof value.url === 'string' && value.url ? value.url : fallback.url,
+    positionX: numberInRange(value.positionX, fallback.positionX, 0, 100),
+    positionY: numberInRange(value.positionY, fallback.positionY, 0, 100),
+    zoom: numberInRange(value.zoom, fallback.zoom, 70, 220),
+    fit: value.fit === 'contain' ? 'contain' : 'cover',
+  };
 }
 
 export function normalizeConfig(input: Partial<SiteConfig> | null | undefined): SiteConfig {
@@ -58,10 +89,10 @@ export function normalizeConfig(input: Partial<SiteConfig> | null | undefined): 
       fit: bg.fit === 'contain' ? 'contain' : 'cover',
     },
     media: {
-      profile: typeof media.profile === 'string' && media.profile ? media.profile : DEFAULT_CONFIG.media.profile,
-      product: typeof media.product === 'string' && media.product ? media.product : DEFAULT_CONFIG.media.product,
-      unboxing: typeof media.unboxing === 'string' && media.unboxing ? media.unboxing : DEFAULT_CONFIG.media.unboxing,
-      fitting: typeof media.fitting === 'string' && media.fitting ? media.fitting : DEFAULT_CONFIG.media.fitting,
+      profile: normalizeAsset((media as any).profile, DEFAULT_CONFIG.media.profile),
+      product: normalizeAsset((media as any).product, DEFAULT_CONFIG.media.product),
+      unboxing: normalizeAsset((media as any).unboxing, DEFAULT_CONFIG.media.unboxing),
+      fitting: normalizeAsset((media as any).fitting, DEFAULT_CONFIG.media.fitting),
     },
   };
 }
@@ -89,14 +120,15 @@ export async function writeSiteConfig(input: Partial<SiteConfig>): Promise<SiteC
     contentType: 'application/json',
     cacheControlMaxAge: 60,
   });
-
   return config;
 }
 
 async function sha256(value: string) {
   const data = new TextEncoder().encode(value);
   const digest = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 export async function validateAdminPassword(password: string | null | undefined) {
@@ -108,7 +140,7 @@ export async function validateAdminPassword(password: string | null | undefined)
     return { ok: true as const };
   }
 
-  if (!password || await sha256(password) !== 'f6c0c8ee6851f0c0827d4831de046406702680cb8063b7d204047254d8d83c4a') {
+  if (!password || await sha256(password) !== '3a560af98d3b3f1cded74f62e8735a28cc0088f6fccab0455fda30f0e4de4c5f') {
     return { ok: false as const, status: 401, error: 'INVALID_PASSWORD' };
   }
 

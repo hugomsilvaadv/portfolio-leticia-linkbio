@@ -98,6 +98,7 @@ const { title } = Astro.props;
       margin-bottom: 26px;
       background: linear-gradient(135deg, var(--brand-rose), var(--brand-sand));
       box-shadow: 0 16px 36px rgba(156, 63, 63, 0.15);
+      overflow: hidden;
     }
 
     .profile-photo,
@@ -376,33 +377,56 @@ const { title } = Astro.props;
 
   <script is:inline>
     (() => {
+      const defaults = {
+        profile: { url: '/foto-perfil.jpg', positionX: 50, positionY: 50, zoom: 100, fit: 'cover' },
+        product: { url: '/portfolio-produto.jpg', positionX: 50, positionY: 50, zoom: 100, fit: 'cover' },
+        unboxing: { url: '/portfolio-unboxing.mp4', positionX: 50, positionY: 50, zoom: 100, fit: 'cover' },
+        fitting: { url: '/portfolio-provador.jpg', positionX: 50, positionY: 50, zoom: 100, fit: 'cover' }
+      };
+
+      const normalizeAsset = (value, fallback) =>
+        typeof value === 'string' ? { ...fallback, url: value } : { ...fallback, ...(value || {}) };
+
+      const styleAsset = (element, asset) => {
+        if (!element || !asset) return;
+        element.style.objectFit = asset.fit === 'contain' ? 'contain' : 'cover';
+        element.style.objectPosition = `${Number(asset.positionX ?? 50)}% ${Number(asset.positionY ?? 50)}%`;
+        element.style.transform = `scale(${Number(asset.zoom ?? 100) / 100})`;
+        element.style.transformOrigin = 'center';
+      };
+
       const applyConfig = (config) => {
         if (!config) return;
         const bg = config.background || {};
         const bgImage = document.getElementById('site-background-image');
         if (bgImage) {
           if (bg.url) bgImage.src = bg.url;
-          bgImage.style.opacity = String((Number(bg.opacity ?? 100)) / 100);
+          bgImage.style.opacity = String(Number(bg.opacity ?? 100) / 100);
           bgImage.style.objectPosition = `${Number(bg.positionX ?? 50)}% ${Number(bg.positionY ?? 52)}%`;
           bgImage.style.objectFit = bg.fit === 'contain' ? 'contain' : 'cover';
           bgImage.style.transform = `scale(${Number(bg.zoom ?? 100) / 100})`;
         }
 
         const media = config.media || {};
-        const setImage = (id, url) => {
-          if (!url) return;
-          const element = document.getElementById(id);
-          if (element) element.src = url;
-        };
+        const profile = normalizeAsset(media.profile, defaults.profile);
+        const product = normalizeAsset(media.product, defaults.product);
+        const unboxing = normalizeAsset(media.unboxing, defaults.unboxing);
+        const fitting = normalizeAsset(media.fitting, defaults.fitting);
 
-        setImage('profile-photo', media.profile);
-        setImage('portfolio-product', media.product);
-        setImage('portfolio-fitting', media.fitting);
+        const profileEl = document.getElementById('profile-photo');
+        if (profileEl) { profileEl.src = profile.url; styleAsset(profileEl, profile); }
+
+        const productEl = document.getElementById('portfolio-product');
+        if (productEl) { productEl.src = product.url; styleAsset(productEl, product); }
+
+        const fittingEl = document.getElementById('portfolio-fitting');
+        if (fittingEl) { fittingEl.src = fitting.url; styleAsset(fittingEl, fitting); }
 
         const video = document.getElementById('portfolio-unboxing');
-        if (video && media.unboxing) {
+        if (video) {
           const source = video.querySelector('source');
-          if (source) source.src = media.unboxing;
+          if (source) source.src = unboxing.url;
+          styleAsset(video, unboxing);
           video.load();
         }
       };
