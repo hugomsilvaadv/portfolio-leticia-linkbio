@@ -292,9 +292,10 @@ const { title } = Astro.props;
     }
 
     .package-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
+      position: relative;
+      align-self: flex-end;
+      flex: 0 0 auto;
+      margin: -2px 0 28px;
       padding: 7px 10px;
       border-radius: 999px;
       background: #f6e9e4;
@@ -302,7 +303,13 @@ const { title } = Astro.props;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: .8px;
+      line-height: 1;
       text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .package-card.featured .package-name {
+      margin-top: 0;
     }
 
     .package-name {
@@ -347,6 +354,12 @@ const { title } = Astro.props;
     footer p { color: #aaa; font-size: 18px; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
     footer a.email { display: block; font-size: 24px; color: white; margin-bottom: 16px; }
     footer a.email:hover { color: var(--brand-rose); }
+    .footer-location {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto !important;
+      text-align: center;
+    }
     .social-links { display: flex; justify-content: center; gap: 16px; margin-top: 48px; }
     .social-links a { border: 1px solid #444; padding: 10px 24px; border-radius: 50px; color: white; transition: all .3s; }
     .social-links a:hover { background: white; color: #111; }
@@ -429,7 +442,18 @@ const { title } = Astro.props;
         const fittingEl=document.getElementById('portfolio-fitting');
         if(fittingEl){fittingEl.src=fitting.url;styleAsset(fittingEl,fitting);}
         const video=document.getElementById('portfolio-unboxing');
-        if(video){const source=video.querySelector('source');if(source)source.src=unboxing.url;styleAsset(video,unboxing);video.load();}
+        if(video){
+          const source=video.querySelector('source');
+          if(source) source.src=unboxing.url;
+          styleAsset(video,unboxing);
+          video.muted=true;
+          video.autoplay=true;
+          video.loop=true;
+          video.playsInline=true;
+          video.load();
+          const playPromise=video.play();
+          if(playPromise && typeof playPromise.catch==='function') playPromise.catch(()=>{});
+        }
         Object.entries(config.texts||{}).forEach(([key,block])=>applyText(key,block));
       };
       fetch('/api/config?ts='+Date.now(),{cache:'no-store'}).then((r)=>r.ok?r.json():null).then(applyConfig).catch(()=>{});
