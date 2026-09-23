@@ -19,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
           throw new Error('INVALID_PAYLOAD');
         }
 
-        const auth = validateAdminPassword(payload.password);
+        const auth = await validateAdminPassword(payload.password);
         if (!auth.ok) throw new Error(auth.error);
 
         if (!pathname.startsWith('portfolio-leticia/media/')) {
