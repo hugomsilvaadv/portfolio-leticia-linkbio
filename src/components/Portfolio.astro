@@ -1,0 +1,84 @@
+---
+const trabalhos = [
+  {
+    titulo: 'Foto do produto',
+    tipo: 'Foto',
+    arquivo: '/portfolio-produto.jpg',
+    classe: 'media-photo',
+    dica: 'Foto do produto'
+  },
+  {
+    titulo: 'Vídeo de unboxing',
+    tipo: 'Vídeo',
+    arquivo: '/portfolio-unboxing.mp4',
+    classe: 'media-video',
+    dica: 'Vídeo de unboxing'
+  },
+  {
+    titulo: 'Foto provador',
+    tipo: 'Foto',
+    arquivo: '/portfolio-provador.jpg',
+    classe: 'media-photo',
+    dica: 'Foto de provador'
+  }
+];
+---
+<section id="portfolio" class="section showcase-section">
+  <div class="container narrow-container">
+    <div class="section-heading text-center">
+      <span class="eyebrow">Portfólio</span>
+      <h2 class="section-title italic">Conteúdo em destaque</h2>
+      <p>Três formatos para apresentar produto, experiência e resultado de forma natural.</p>
+    </div>
+
+    <div class="showcase-grid">
+      {trabalhos.map((item) => (
+        <article class="showcase-card">
+          <div class="showcase-media">
+            {item.tipo === 'Vídeo' ? (
+              <>
+                <video class={item.classe} controls playsinline preload="metadata">
+                  <source src={item.arquivo} type="video/mp4" />
+                </video>
+                <div class="media-placeholder video-placeholder" aria-hidden="true">
+                  <span class="play-icon">▶</span>
+                  <span>{item.dica}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <img
+                  src={item.arquivo}
+                  alt={item.titulo}
+                  class={item.classe}
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="media-placeholder">
+                  <span>{item.dica}</span>
+                </div>
+              </>
+            )}
+          </div>
+          <div class="showcase-caption">
+            <span>{item.tipo}</span>
+            <h3>{item.titulo}</h3>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('.showcase-card video').forEach((video) => {
+    const placeholder = video.nextElementSibling;
+    video.addEventListener('loadeddata', () => {
+      placeholder.style.display = 'none';
+      video.style.display = 'block';
+    });
+    video.addEventListener('error', () => {
+      video.style.display = 'none';
+      placeholder.style.display = 'flex';
+    });
+  });
+</script>

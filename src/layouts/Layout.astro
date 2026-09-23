@@ -1,0 +1,342 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Portfólio UGC de Leticia Leite — moda, beleza e lifestyle." />
+  <title>{title}</title>
+  <style is:global>
+    :root {
+      --brand-rose: #d88c88;
+      --brand-wine: #9c3f3f;
+      --brand-wine-dark: #7a3131;
+      --brand-sand: #eeddcc;
+      --bg-color: #fdfbf7;
+      --text-main: #2f2b2a;
+      --text-light: #746d69;
+      --card: #ffffff;
+      --border: rgba(88, 65, 58, 0.12);
+      --shadow: 0 18px 50px rgba(72, 45, 39, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(216, 140, 136, 0.11), transparent 34rem),
+        var(--bg-color);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; margin: 0; }
+    a { text-decoration: none; }
+    img, video { max-width: 100%; }
+
+    .container { max-width: 1040px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+    .narrow-container { max-width: 960px; }
+    .text-center { text-align: center; }
+    .italic { font-style: italic; }
+
+    .link-hero {
+      min-height: 620px;
+      padding-top: 72px;
+      padding-bottom: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .profile-photo-wrap {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      padding: 5px;
+      margin-bottom: 26px;
+      background: linear-gradient(135deg, var(--brand-rose), var(--brand-sand));
+      box-shadow: 0 16px 36px rgba(156, 63, 63, 0.15);
+    }
+
+    .profile-photo,
+    .profile-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--bg-color);
+      background: #eee4de;
+    }
+
+    .profile-placeholder {
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--text-light);
+    }
+
+    .hero-kicker,
+    .eyebrow {
+      display: block;
+      color: var(--brand-rose);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .link-hero h1 {
+      margin-top: 10px;
+      font-size: clamp(48px, 9vw, 72px);
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .link-hero h1 span { color: var(--brand-wine); }
+
+    .hero-description {
+      max-width: 580px;
+      margin: 20px auto 0;
+      color: var(--text-light);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .quick-links {
+      width: min(100%, 560px);
+      display: grid;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .quick-link {
+      display: block;
+      padding: 16px 22px;
+      border-radius: 18px;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--border);
+      box-shadow: 0 7px 24px rgba(72, 45, 39, 0.045);
+      font-weight: 600;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .quick-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(156, 63, 63, 0.25);
+      box-shadow: 0 10px 30px rgba(72, 45, 39, 0.09);
+    }
+
+    .quick-link-primary {
+      background: var(--brand-wine);
+      color: #fff;
+      border-color: var(--brand-wine);
+    }
+
+    .section { padding: 88px 0; }
+    .showcase-section { background: rgba(238, 221, 204, 0.24); }
+    .packages-section { background: #fff; }
+
+    .section-heading { max-width: 660px; margin: 0 auto 42px; }
+    .section-title {
+      margin-top: 8px;
+      color: var(--brand-wine);
+      font-size: clamp(34px, 5vw, 46px);
+    }
+    .section-heading p {
+      margin: 14px auto 0;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .showcase-card {
+      overflow: hidden;
+      border-radius: 26px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .showcase-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #eadfd8;
+    }
+
+    .showcase-media img,
+    .showcase-media video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .showcase-media video { display: none; }
+
+    .media-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      text-align: center;
+      color: #8f7f76;
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-size: 22px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.45), rgba(216,140,136,.14)),
+        #eadfd8;
+    }
+
+    .video-placeholder { flex-direction: column; gap: 16px; }
+    .play-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      padding-left: 4px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--brand-wine);
+      font-family: sans-serif;
+      font-style: normal;
+      font-size: 18px;
+      box-shadow: 0 8px 24px rgba(88, 65, 58, .12);
+    }
+
+    .showcase-caption { padding: 18px 20px 22px; }
+    .showcase-caption span {
+      color: var(--brand-rose);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .showcase-caption h3 { margin-top: 6px; font-size: 21px; }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+      gap: 18px;
+    }
+
+    .package-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 390px;
+      padding: 30px;
+      border-radius: 26px;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 32px rgba(72, 45, 39, 0.055);
+    }
+
+    .package-card.featured {
+      border-color: rgba(156, 63, 63, .3);
+      box-shadow: 0 18px 50px rgba(156, 63, 63, .12);
+      transform: translateY(-8px);
+    }
+
+    .package-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f6e9e4;
+      color: var(--brand-wine);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .package-name {
+      margin: 0 0 22px;
+      color: var(--brand-rose);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    .package-card h3 { font-size: 27px; line-height: 1.15; }
+    .package-description {
+      margin: 16px 0 0;
+      color: var(--text-light);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .package-price {
+      margin: auto 0 20px;
+      padding-top: 32px;
+      color: var(--brand-wine);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 21px;
+      font-weight: 700;
+    }
+    .package-button {
+      display: block;
+      padding: 14px 18px;
+      border-radius: 999px;
+      text-align: center;
+      background: var(--brand-wine);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .package-button:hover { background: var(--brand-wine-dark); transform: translateY(-1px); }
+
+    footer { background-color: #111; color: white; text-align: center; padding: 100px 24px; }
+    footer h2 { font-size: 36px; margin-bottom: 24px; }
+    footer p { color: #aaa; font-size: 18px; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    footer a.email { display: block; font-size: 24px; color: white; margin-bottom: 16px; }
+    footer a.email:hover { color: var(--brand-rose); }
+    .social-links { display: flex; justify-content: center; gap: 16px; margin-top: 48px; }
+    .social-links a { border: 1px solid #444; padding: 10px 24px; border-radius: 50px; color: white; transition: all .3s; }
+    .social-links a:hover { background: white; color: #111; }
+
+    @media (max-width: 760px) {
+      .container { padding-left: 18px; padding-right: 18px; }
+      .link-hero { min-height: auto; padding-top: 52px; padding-bottom: 64px; }
+      .profile-photo-wrap { width: 118px; height: 118px; }
+      .link-hero h1 { letter-spacing: -1px; }
+      .section { padding: 68px 0; }
+      .showcase-grid,
+      .packages-grid { grid-template-columns: 1fr; }
+      .showcase-card { max-width: 460px; width: 100%; margin: 0 auto; }
+      .package-card { min-height: 0; }
+      .package-card.featured { transform: none; }
+      .package-price { margin-top: 26px; }
+      footer { padding: 76px 20px; }
+      footer a.email { font-size: 19px; overflow-wrap: anywhere; }
+      .social-links { flex-direction: column; max-width: 260px; margin-left: auto; margin-right: auto; }
+    }
+  </style>
+</head>
+<body>
+  <slot />
+</body>
+</html>

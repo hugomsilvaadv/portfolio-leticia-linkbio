@@ -1,0 +1,15 @@
+Arquivos preparados para substituir os placeholders do site:
+
+1. Foto do topo da Letícia:
+   foto-perfil.jpg
+
+2. Foto do produto:
+   portfolio-produto.jpg
+
+3. Vídeo de unboxing:
+   portfolio-unboxing.mp4
+
+4. Foto de provador:
+   portfolio-provador.jpg
+
+Coloque esses arquivos dentro da pasta public/ com exatamente esses nomes.
