@@ -143,7 +143,7 @@ const title = 'Painel do Portfólio | Letícia Leite';
 </div>
 
 <script>
-  import { upload } from '@vercel/blob/client';
+  import { uploadPresigned } from '@vercel/blob/client';
 
   const asset = (url) => ({ url, positionX:50, positionY:50, zoom:100, fit:'cover' });
   const defaults = {
@@ -218,7 +218,7 @@ const title = 'Painel do Portfólio | Letícia Leite';
     const file=pendingFiles[kind];if(!file)return null;
     const extension=(file.name.split('.').pop()||(file.type.startsWith('video/')?'mp4':'jpg')).toLowerCase();
     const pathname='portfolio-leticia/media/'+kind+'.'+extension;
-    const blob=await upload(pathname,file,{access:'public',handleUploadUrl:'/api/blob-upload',clientPayload:JSON.stringify({password,kind}),multipart:file.size>4*1024*1024});
+    const blob=await uploadPresigned(pathname,file,{access:'public',handleUploadUrl:'/api/blob-upload',clientPayload:JSON.stringify({password,kind}),multipart:file.size>4*1024*1024});
     return blob.url;
   }
 
