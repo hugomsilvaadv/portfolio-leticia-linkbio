@@ -2,28 +2,19 @@
 ---
 <header class="link-hero container">
   <div class="profile-photo-wrap">
-    <img
-      id="profile-photo"
-      src="/foto-perfil.jpg"
-      alt="Letícia Leite"
-      class="profile-photo"
+    <img id="profile-photo" src="/foto-perfil.jpg" alt="Letícia Leite" class="profile-photo"
       onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
-      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-    />
-    <div class="profile-placeholder" style="display:none;">
-      <span>Foto da<br><strong>Letícia</strong></span>
-    </div>
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+    <div class="profile-placeholder" style="display:none;"><span>Foto da<br><strong>Letícia</strong></span></div>
   </div>
 
-  <span class="hero-kicker">UGC Creator • Moda • Beleza • Lifestyle</span>
-  <h1>Letícia Leite</h1>
-  <p class="hero-description">
-    Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.
-  </p>
+  <span class="hero-kicker" data-text-key="heroKicker">UGC Creator • Moda • Beleza • Lifestyle</span>
+  <h1 data-text-key="heroTitle">Letícia Leite</h1>
+  <p class="hero-description" data-text-key="heroDescription">Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.</p>
 
   <nav class="quick-links" aria-label="Atalhos do portfólio">
-    <a href="#portfolio" class="quick-link">Ver portfólio</a>
-    <a href="#pacotes" class="quick-link">Pacotes & serviços</a>
-    <a href="https://wa.me/5531995309352" target="_blank" rel="noopener" class="quick-link quick-link-primary">Falar comigo</a>
+    <a href="#portfolio" class="quick-link" data-text-key="heroButtonPortfolio">Ver portfólio</a>
+    <a href="#pacotes" class="quick-link" data-text-key="heroButtonPackages">Pacotes & serviços</a>
+    <a href="https://wa.me/5531995309352" target="_blank" rel="noopener" class="quick-link quick-link-primary" data-text-key="heroButtonContact">Falar comigo</a>
   </nav>
 </header>
