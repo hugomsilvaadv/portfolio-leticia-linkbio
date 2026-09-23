@@ -438,9 +438,10 @@ const title = 'Painel do Portfólio | Letícia Leite';
       const response=await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json','x-admin-password':password},body:JSON.stringify(state)});
       const data=await response.json().catch(()=>({}));
       if(!response.ok){if(data.error==='INVALID_PASSWORD')throw new Error('Senha incorreta.');throw new Error(data.error||'Não foi possível salvar.')}
-      state={...data,background:data.background,media:data.media,texts:data.texts};
-      kinds.forEach((kind)=>state.media[kind]=normalizeAsset(state.media[kind],defaults.media[kind]));
-      textDefs.forEach((def)=>state.texts[def.key]=normalizeText(state.texts[def.key],def.default));
+      const saved=data.config||data;
+      state={background:{...defaults.background,...(saved.background||{})},media:{},texts:{}};
+      kinds.forEach((kind)=>state.media[kind]=normalizeAsset(saved.media&&saved.media[kind],defaults.media[kind]));
+      textDefs.forEach((def)=>state.texts[def.key]=normalizeText(saved.texts&&saved.texts[def.key],def.default));
       loadControls();setStatus('Tudo salvo e publicado no portfólio.','ok');
     }catch(error){setStatus(error instanceof Error?error.message:'Falha ao salvar.','error')}
     finally{el('save-button').disabled=false}
