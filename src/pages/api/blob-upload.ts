@@ -1,17 +1,41 @@
 import type { APIRoute } from 'astro';
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+import { issueSignedToken } from '@vercel/blob';
+import {
+  handleUploadPresigned,
+  type HandleUploadPresignedBody,
+} from '@vercel/blob/client';
 import { validateAdminPassword } from '../../lib/site-config';
 
 export const prerender = false;
 
+const allowedContentTypes = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/avif',
+  'video/mp4',
+  'video/quicktime',
+  'video/webm',
+];
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = (await request.json()) as HandleUploadBody;
+    const body = (await request.json()) as HandleUploadPresignedBody;
 
-    const jsonResponse = await handleUpload({
+    const storeId = process.env.BLOB_STORE_ID ?? import.meta.env.BLOB_STORE_ID;
+    const oidcToken = process.env.VERCEL_OIDC_TOKEN ?? import.meta.env.VERCEL_OIDC_TOKEN;
+    const webhookPublicKey =
+      process.env.BLOB_WEBHOOK_PUBLIC_KEY ?? import.meta.env.BLOB_WEBHOOK_PUBLIC_KEY;
+
+    if (!storeId) {
+      throw new Error('BLOB_STORE_ID_MISSING');
+    }
+
+    const jsonResponse = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
+      webhookPublicKey,
+      getSignedToken: async (pathname, clientPayload) => {
         let payload: { password?: string; kind?: string } = {};
         try {
           payload = clientPayload ? JSON.parse(clientPayload) : {};
@@ -26,21 +50,24 @@ export const POST: APIRoute = async ({ request }) => {
           throw new Error('INVALID_PATH');
         }
 
-        return {
-          allowedContentTypes: [
-            'image/jpeg',
-            'image/png',
-            'image/webp',
-            'image/avif',
-            'video/mp4',
-            'video/quicktime',
-            'video/webm',
-          ],
+        const token = await issueSignedToken({
+          pathname,
+          operations: ['put'],
+          validUntil: Date.now() + 15 * 60 * 1000,
+          allowedContentTypes,
           maximumSizeInBytes: 150 * 1024 * 1024,
-          addRandomSuffix: false,
-          allowOverwrite: true,
-          cacheControlMaxAge: 60,
-          tokenPayload: JSON.stringify({ kind: payload.kind ?? 'media' }),
+          storeId,
+          ...(oidcToken ? { oidcToken } : {}),
+        });
+
+        return {
+          token,
+          urlOptions: {
+            allowedContentTypes,
+            addRandomSuffix: false,
+            allowOverwrite: true,
+            cacheControlMaxAge: 60,
+          },
         };
       },
       onUploadCompleted: async () => {},
