@@ -86,7 +86,7 @@ const title = 'Painel do Portfólio | Letícia Leite';
       position: relative; min-height: 720px; overflow: hidden; background: var(--cream);
     }
     .preview-bg {
-      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 35%;
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 52%;
       transform:scale(1); opacity:1;
     }
     .preview-content {
@@ -155,8 +155,8 @@ const title = 'Painel do Portfólio | Letícia Leite';
             <span id="position-x-value" class="range-value">50%</span>
           </div>
           <div class="range-row">
-            <div><label for="position-y">Posição vertical</label><input id="position-y" type="range" min="0" max="100" value="35" /></div>
-            <span id="position-y-value" class="range-value">35%</span>
+            <div><label for="position-y">Posição vertical</label><input id="position-y" type="range" min="0" max="100" value="52" /></div>
+            <span id="position-y-value" class="range-value">52%</span>
           </div>
           <label for="fit">Encaixe</label>
           <select id="fit">
@@ -202,7 +202,7 @@ const title = 'Painel do Portfólio | Letícia Leite';
     import { upload } from '@vercel/blob/client';
 
     const defaults = {
-      background: { url: '/hero-fundo-leticia.jpg', opacity: 100, positionX: 50, positionY: 35, zoom: 100, fit: 'cover' },
+      background: { url: '/hero-fundo-leticia.jpg', opacity: 100, positionX: 50, positionY: 52, zoom: 100, fit: 'cover' },
       media: { profile: '/foto-perfil.jpg', product: '/portfolio-produto.jpg', unboxing: '/portfolio-unboxing.mp4', fitting: '/portfolio-provador.jpg' }
     };
 
