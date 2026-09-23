@@ -24,7 +24,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
     url: '/hero-fundo-leticia.jpg',
     opacity: 100,
     positionX: 50,
-    positionY: 35,
+    positionY: 52,
     zoom: 100,
     fit: 'cover',
   },
