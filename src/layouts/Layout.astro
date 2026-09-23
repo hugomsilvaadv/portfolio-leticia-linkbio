@@ -9,7 +9,7 @@ const { title } = Astro.props;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Portfólio UGC de Leticia Leite — moda, beleza e lifestyle." />
+  <meta name="description" content="Portfólio UGC de Letícia Leite — moda, beleza e lifestyle." />
   <title>{title}</title>
   <style is:global>
     :root {
@@ -29,12 +29,38 @@ const { title } = Astro.props;
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        linear-gradient(rgba(253, 251, 247, 0.12), rgba(253, 251, 247, 0.12)),
-        url('/hero-fundo-leticia.jpg') center top / cover fixed no-repeat;
+      background: var(--bg-color);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
+    }
+
+    .site-background {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+      background: var(--bg-color);
+      pointer-events: none;
+    }
+
+    .site-background img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: 50% 35%;
+      opacity: 1;
+      transform: scale(1);
+      transform-origin: center;
+    }
+
+    .site-background::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(253, 251, 247, 0.08);
     }
 
     h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; margin: 0; }
@@ -47,8 +73,6 @@ const { title } = Astro.props;
     .italic { font-style: italic; }
 
     .link-hero {
-      position: relative;
-      overflow: hidden;
       min-height: 620px;
       margin-top: 24px;
       padding-top: 72px;
@@ -59,8 +83,9 @@ const { title } = Astro.props;
       justify-content: center;
       text-align: center;
       border-radius: 36px;
-      background: rgba(253, 251, 247, 0.28);
-      backdrop-filter: blur(0.4px);
+      background: rgba(253, 251, 247, 0.52);
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,.44);
     }
 
     .profile-photo-wrap {
@@ -129,7 +154,7 @@ const { title } = Astro.props;
       padding: 16px 22px;
       border-radius: 18px;
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.90);
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid var(--border);
       box-shadow: 0 7px 24px rgba(72, 45, 39, 0.045);
       font-weight: 600;
@@ -149,8 +174,8 @@ const { title } = Astro.props;
     }
 
     .section { padding: 88px 0; }
-    .showcase-section { background: rgba(238, 221, 204, 0.52); }
-    .packages-section { background: rgba(255, 255, 255, 0.68); }
+    .showcase-section { background: rgba(238, 221, 204, 0.72); backdrop-filter: blur(4px); }
+    .packages-section { background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(4px); }
 
     .section-heading { max-width: 660px; margin: 0 auto 42px; }
     .section-title {
@@ -252,7 +277,7 @@ const { title } = Astro.props;
       min-height: 390px;
       padding: 30px;
       border-radius: 26px;
-      background: #fff;
+      background: rgba(255,255,255,.95);
       border: 1px solid var(--border);
       box-shadow: 0 10px 32px rgba(72, 45, 39, 0.055);
     }
@@ -314,7 +339,7 @@ const { title } = Astro.props;
     }
     .package-button:hover { background: var(--brand-wine-dark); transform: translateY(-1px); }
 
-    footer { background: rgba(17, 17, 17, 0.90); color: white; text-align: center; padding: 100px 24px; }
+    footer { background: rgba(17, 17, 17, 0.94); color: white; text-align: center; padding: 100px 24px; }
     footer h2 { font-size: 36px; margin-bottom: 24px; }
     footer p { color: #aaa; font-size: 18px; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
     footer a.email { display: block; font-size: 24px; color: white; margin-bottom: 16px; }
@@ -325,7 +350,7 @@ const { title } = Astro.props;
 
     @media (max-width: 760px) {
       .container { padding-left: 18px; padding-right: 18px; }
-      .link-hero { min-height: auto; padding-top: 52px; padding-bottom: 64px; }
+      .link-hero { min-height: auto; margin-top: 12px; padding-top: 52px; padding-bottom: 64px; border-radius: 24px; }
       .profile-photo-wrap { width: 118px; height: 118px; }
       .link-hero h1 { letter-spacing: -1px; }
       .section { padding: 68px 0; }
@@ -342,6 +367,49 @@ const { title } = Astro.props;
   </style>
 </head>
 <body>
+  <div class="site-background" aria-hidden="true">
+    <img id="site-background-image" src="/hero-fundo-leticia.jpg" alt="" />
+  </div>
   <slot />
+
+  <script is:inline>
+    (() => {
+      const applyConfig = (config) => {
+        if (!config) return;
+        const bg = config.background || {};
+        const bgImage = document.getElementById('site-background-image');
+        if (bgImage) {
+          if (bg.url) bgImage.src = bg.url;
+          bgImage.style.opacity = String((Number(bg.opacity ?? 100)) / 100);
+          bgImage.style.objectPosition = `${Number(bg.positionX ?? 50)}% ${Number(bg.positionY ?? 35)}%`;
+          bgImage.style.objectFit = bg.fit === 'contain' ? 'contain' : 'cover';
+          bgImage.style.transform = `scale(${Number(bg.zoom ?? 100) / 100})`;
+        }
+
+        const media = config.media || {};
+        const setImage = (id, url) => {
+          if (!url) return;
+          const element = document.getElementById(id);
+          if (element) element.src = url;
+        };
+
+        setImage('profile-photo', media.profile);
+        setImage('portfolio-product', media.product);
+        setImage('portfolio-fitting', media.fitting);
+
+        const video = document.getElementById('portfolio-unboxing');
+        if (video && media.unboxing) {
+          const source = video.querySelector('source');
+          if (source) source.src = media.unboxing;
+          video.load();
+        }
+      };
+
+      fetch('/api/config?ts=' + Date.now(), { cache: 'no-store' })
+        .then((response) => response.ok ? response.json() : null)
+        .then(applyConfig)
+        .catch(() => {});
+    })();
+  </script>
 </body>
 </html>

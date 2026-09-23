@@ -1,0 +1,381 @@
+---
+const title = 'Painel do Portfólio | Letícia Leite';
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>{title}</title>
+  <style>
+    :root {
+      --wine: #9c3f3f;
+      --wine-dark: #7a3131;
+      --rose: #d88c88;
+      --cream: #f8f3ed;
+      --ink: #282321;
+      --muted: #756b66;
+      --line: #e5dcd6;
+      --card: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f4f1ed;
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input, select { font: inherit; }
+    .shell { max-width: 1320px; margin: 0 auto; padding: 28px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      margin-bottom: 24px;
+    }
+    .topbar h1 { margin: 0; font: 700 30px/1.1 Georgia, serif; }
+    .topbar p { margin: 6px 0 0; color: var(--muted); }
+    .site-link {
+      padding: 11px 16px; border-radius: 12px; background: #fff; color: var(--wine);
+      border: 1px solid var(--line); text-decoration: none; font-weight: 700;
+    }
+    .workspace { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 24px; align-items: start; }
+    .panel, .preview-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+      box-shadow: 0 14px 40px rgba(78, 56, 48, .07);
+    }
+    .panel { padding: 22px; }
+    .panel h2 { margin: 0 0 16px; font-size: 19px; }
+    .block { padding: 18px 0; border-top: 1px solid #eee7e2; }
+    .block:first-of-type { border-top: 0; padding-top: 0; }
+    label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
+    input[type="password"], select {
+      width: 100%; border: 1px solid var(--line); border-radius: 11px; padding: 11px 12px; background: #fff;
+    }
+    input[type="file"] { width: 100%; font-size: 13px; }
+    input[type="range"] { width: 100%; accent-color: var(--wine); }
+    .range-row { display: grid; grid-template-columns: 1fr 58px; gap: 10px; align-items: center; margin: 14px 0; }
+    .range-value {
+      text-align: center; padding: 8px 5px; border-radius: 9px; background: #f5efeb;
+      color: var(--wine); font-size: 12px; font-weight: 800;
+    }
+    .media-grid { display: grid; gap: 12px; }
+    .media-upload {
+      padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #fbf9f7;
+    }
+    .media-upload strong { display:block; margin-bottom: 8px; font-size: 13px; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .button {
+      border: 0; border-radius: 12px; padding: 13px 15px; cursor: pointer; font-weight: 800;
+    }
+    .button-primary { background: var(--wine); color: #fff; }
+    .button-primary:hover { background: var(--wine-dark); }
+    .button-secondary { background: #f0e8e3; color: var(--wine); }
+    .status {
+      min-height: 40px; margin-top: 14px; padding: 11px 12px; border-radius: 11px;
+      background: #f8f5f2; color: var(--muted); font-size: 13px; line-height: 1.4;
+    }
+    .status.ok { background: #eef7ef; color: #296236; }
+    .status.error { background: #fff0ef; color: #9a3530; }
+    .preview-card { position: sticky; top: 20px; overflow: hidden; }
+    .preview-toolbar {
+      display:flex; align-items:center; justify-content:space-between; padding: 13px 16px;
+      border-bottom:1px solid var(--line); background:#fff;
+    }
+    .preview-toolbar span { font-size: 13px; color: var(--muted); }
+    .preview {
+      position: relative; min-height: 720px; overflow: hidden; background: var(--cream);
+    }
+    .preview-bg {
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 35%;
+      transform:scale(1); opacity:1;
+    }
+    .preview-content {
+      position:relative; z-index:2; width:min(620px, calc(100% - 42px)); margin:60px auto;
+      padding:46px 30px; text-align:center; border-radius:30px;
+      background:rgba(253,251,247,.58); backdrop-filter:blur(2px);
+    }
+    .preview-avatar {
+      width:110px; height:110px; object-fit:cover; border-radius:50%; border:5px solid #fff;
+      background:#eee4de; box-shadow:0 10px 26px rgba(90,58,50,.14);
+    }
+    .preview-kicker { color:var(--rose); font-size:11px; text-transform:uppercase; letter-spacing:1.7px; font-weight:800; margin-top:20px; }
+    .preview h2 { color:var(--wine); font:700 clamp(42px,7vw,64px)/1 Georgia,serif; margin:9px 0 14px; }
+    .preview p { color:var(--muted); margin:0 auto 24px; max-width:460px; }
+    .mock-links { display:grid; gap:10px; max-width:480px; margin:0 auto; }
+    .mock-links span { display:block; background:rgba(255,255,255,.9); border:1px solid #e7ddd7; border-radius:14px; padding:13px; font-weight:700; font-size:13px; }
+    .mock-links span:last-child { background:var(--wine); color:#fff; }
+    .hint { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height:1.45; }
+    @media (max-width: 960px) {
+      .workspace { grid-template-columns: 1fr; }
+      .preview-card { position: static; }
+      .preview { min-height: 620px; }
+    }
+    @media (max-width: 560px) {
+      .shell { padding: 16px; }
+      .topbar { align-items:flex-start; flex-direction:column; }
+      .actions { grid-template-columns: 1fr; }
+      .preview-content { margin: 30px auto; padding: 36px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div>
+        <h1>Painel do Portfólio</h1>
+        <p>Troque as mídias e ajuste o enquadramento sem editar código.</p>
+      </div>
+      <a class="site-link" href="/" target="_blank">Abrir site público ↗</a>
+    </div>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="block">
+          <h2>Acesso</h2>
+          <label for="admin-password">Senha do painel</label>
+          <input id="admin-password" type="password" autocomplete="current-password" placeholder="Digite a senha" />
+          <p class="hint">A senha será validada apenas no servidor.</p>
+        </div>
+
+        <div class="block">
+          <h2>Foto de fundo</h2>
+          <label for="background-file">Escolher nova foto</label>
+          <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" />
+
+          <div class="range-row">
+            <div><label for="opacity">Opacidade</label><input id="opacity" type="range" min="0" max="100" value="100" /></div>
+            <span id="opacity-value" class="range-value">100%</span>
+          </div>
+          <div class="range-row">
+            <div><label for="zoom">Zoom</label><input id="zoom" type="range" min="70" max="220" value="100" /></div>
+            <span id="zoom-value" class="range-value">100%</span>
+          </div>
+          <div class="range-row">
+            <div><label for="position-x">Posição horizontal</label><input id="position-x" type="range" min="0" max="100" value="50" /></div>
+            <span id="position-x-value" class="range-value">50%</span>
+          </div>
+          <div class="range-row">
+            <div><label for="position-y">Posição vertical</label><input id="position-y" type="range" min="0" max="100" value="35" /></div>
+            <span id="position-y-value" class="range-value">35%</span>
+          </div>
+          <label for="fit">Encaixe</label>
+          <select id="fit">
+            <option value="cover">Cobrir toda a tela</option>
+            <option value="contain">Mostrar foto inteira</option>
+          </select>
+        </div>
+
+        <div class="block">
+          <h2>Outras mídias</h2>
+          <div class="media-grid">
+            <div class="media-upload"><strong>Foto redonda da Letícia</strong><input id="profile-file" type="file" accept="image/*" /></div>
+            <div class="media-upload"><strong>Foto do produto</strong><input id="product-file" type="file" accept="image/*" /></div>
+            <div class="media-upload"><strong>Vídeo de unboxing</strong><input id="unboxing-file" type="file" accept="video/mp4,video/quicktime,video/webm" /></div>
+            <div class="media-upload"><strong>Foto provador</strong><input id="fitting-file" type="file" accept="image/*" /></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="save-button" class="button button-primary" type="button">Salvar alterações</button>
+          <button id="reload-button" class="button button-secondary" type="button">Recarregar</button>
+        </div>
+        <div id="status" class="status">Carregando configuração atual…</div>
+      </section>
+
+      <section class="preview-card">
+        <div class="preview-toolbar"><strong>Pré-visualização</strong><span>o fundo responde aos controles em tempo real</span></div>
+        <div class="preview">
+          <img id="preview-bg" class="preview-bg" src="/hero-fundo-leticia.jpg" alt="" />
+          <div class="preview-content">
+            <img id="preview-profile" class="preview-avatar" src="/foto-perfil.jpg" alt="Prévia da Letícia" />
+            <div class="preview-kicker">UGC Creator • Moda • Beleza • Lifestyle</div>
+            <h2>Letícia Leite</h2>
+            <p>Conteúdo autêntico, estético e pensado para aproximar marcas de pessoas.</p>
+            <div class="mock-links"><span>Ver portfólio</span><span>Pacotes & serviços</span><span>Falar comigo</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    import { upload } from '@vercel/blob/client';
+
+    const defaults = {
+      background: { url: '/hero-fundo-leticia.jpg', opacity: 100, positionX: 50, positionY: 35, zoom: 100, fit: 'cover' },
+      media: { profile: '/foto-perfil.jpg', product: '/portfolio-produto.jpg', unboxing: '/portfolio-unboxing.mp4', fitting: '/portfolio-provador.jpg' }
+    };
+
+    let state = structuredClone(defaults);
+    let localBackgroundUrl = '';
+
+    const el = (id) => document.getElementById(id);
+    const status = el('status');
+    const previewBg = el('preview-bg');
+    const previewProfile = el('preview-profile');
+
+    function setStatus(message, type = '') {
+      status.textContent = message;
+      status.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function updateRangeLabels() {
+      el('opacity-value').textContent = el('opacity').value + '%';
+      el('zoom-value').textContent = el('zoom').value + '%';
+      el('position-x-value').textContent = el('position-x').value + '%';
+      el('position-y-value').textContent = el('position-y').value + '%';
+    }
+
+    function syncStateFromControls() {
+      state.background.opacity = Number(el('opacity').value);
+      state.background.zoom = Number(el('zoom').value);
+      state.background.positionX = Number(el('position-x').value);
+      state.background.positionY = Number(el('position-y').value);
+      state.background.fit = el('fit').value;
+    }
+
+    function renderPreview() {
+      syncStateFromControls();
+      previewBg.src = localBackgroundUrl || state.background.url || defaults.background.url;
+      previewBg.style.opacity = String(state.background.opacity / 100);
+      previewBg.style.objectPosition = state.background.positionX + '% ' + state.background.positionY + '%';
+      previewBg.style.objectFit = state.background.fit;
+      previewBg.style.transform = 'scale(' + (state.background.zoom / 100) + ')';
+      previewProfile.src = state.media.profile || defaults.media.profile;
+      updateRangeLabels();
+    }
+
+    function loadControls() {
+      el('opacity').value = String(state.background.opacity);
+      el('zoom').value = String(state.background.zoom);
+      el('position-x').value = String(state.background.positionX);
+      el('position-y').value = String(state.background.positionY);
+      el('fit').value = state.background.fit;
+      renderPreview();
+    }
+
+    async function loadConfig() {
+      setStatus('Carregando configuração atual…');
+      try {
+        const response = await fetch('/api/config?ts=' + Date.now(), { cache: 'no-store' });
+        if (!response.ok) throw new Error('Não foi possível carregar a configuração.');
+        const data = await response.json();
+        state = {
+          background: { ...defaults.background, ...(data.background || {}) },
+          media: { ...defaults.media, ...(data.media || {}) }
+        };
+        localBackgroundUrl = '';
+        loadControls();
+        setStatus('Configuração carregada. Você já pode editar.', 'ok');
+      } catch (error) {
+        state = structuredClone(defaults);
+        loadControls();
+        setStatus(error instanceof Error ? error.message : 'Falha ao carregar.', 'error');
+      }
+    }
+
+    async function uploadFile(kind, file) {
+      const password = el('admin-password').value.trim();
+      if (!password) throw new Error('Digite a senha do painel antes de enviar mídias.');
+
+      const extension = (file.name.split('.').pop() || (file.type.startsWith('video/') ? 'mp4' : 'jpg')).toLowerCase();
+      const pathname = 'portfolio-leticia/media/' + kind + '.' + extension;
+
+      setStatus('Enviando ' + file.name + '…');
+      const blob = await upload(pathname, file, {
+        access: 'public',
+        handleUploadUrl: '/api/blob-upload',
+        clientPayload: JSON.stringify({ password, kind }),
+        multipart: file.size > 4 * 1024 * 1024,
+      });
+      return blob.url;
+    }
+
+    el('background-file').addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      if (localBackgroundUrl) URL.revokeObjectURL(localBackgroundUrl);
+      localBackgroundUrl = URL.createObjectURL(file);
+      renderPreview();
+
+      try {
+        const url = await uploadFile('background', file);
+        state.background.url = url;
+        localBackgroundUrl = '';
+        renderPreview();
+        setStatus('Foto de fundo enviada. Ajuste o enquadramento e clique em Salvar alterações.', 'ok');
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : 'Erro no envio.', 'error');
+      }
+    });
+
+    const mediaInputs = [
+      ['profile-file', 'profile'],
+      ['product-file', 'product'],
+      ['unboxing-file', 'unboxing'],
+      ['fitting-file', 'fitting']
+    ];
+
+    mediaInputs.forEach(([inputId, kind]) => {
+      el(inputId).addEventListener('change', async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+          const url = await uploadFile(kind, file);
+          state.media[kind] = url;
+          if (kind === 'profile') previewProfile.src = url;
+          setStatus('Mídia enviada. Clique em Salvar alterações para publicar no portfólio.', 'ok');
+        } catch (error) {
+          setStatus(error instanceof Error ? error.message : 'Erro no envio.', 'error');
+        }
+      });
+    });
+
+    ['opacity', 'zoom', 'position-x', 'position-y', 'fit'].forEach((id) => {
+      el(id).addEventListener('input', renderPreview);
+      el(id).addEventListener('change', renderPreview);
+    });
+
+    el('save-button').addEventListener('click', async () => {
+      const password = el('admin-password').value.trim();
+      if (!password) {
+        setStatus('Digite a senha do painel.', 'error');
+        return;
+      }
+
+      syncStateFromControls();
+      setStatus('Salvando alterações…');
+
+      try {
+        const response = await fetch('/api/config', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': password,
+          },
+          body: JSON.stringify(state),
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          if (data.error === 'BLOB_NOT_CONFIGURED') throw new Error('O armazenamento da Vercel ainda precisa ser conectado ao projeto.');
+          if (data.error === 'ADMIN_PASSWORD_NOT_CONFIGURED') throw new Error('A senha do painel ainda precisa ser configurada na Vercel.');
+          if (data.error === 'INVALID_PASSWORD') throw new Error('Senha incorreta.');
+          throw new Error(data.error || 'Não foi possível salvar.');
+        }
+
+        state = data.config;
+        loadControls();
+        setStatus('Alterações publicadas. O site público já pode usar a nova configuração.', 'ok');
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : 'Falha ao salvar.', 'error');
+      }
+    });
+
+    el('reload-button').addEventListener('click', loadConfig);
+    loadConfig();
+  </script>
+</body>
+</html>
